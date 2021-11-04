@@ -1,0 +1,370 @@
+@charset "UTF-8";
+header {
+	position:fixed;
+	width : 800px;
+	height:100px;
+	top: 0;
+	left: 400px;
+}
+body {
+	font-size : 14px;
+	font-family: 맑은고딕;
+	color: #A6A6A6;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+}
+#logo {
+	font-size: 40px;
+	height:100px;
+	top: 0;
+	left : 80px;
+	font-family: a고딕11;
+	font-weight: bold;
+	position : fixed;
+	line-height: 150px;
+	text-decoration: none;
+	color : gray;
+}
+#topMenu {
+	width : 900px;
+	line-height : 15px;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+}
+#topMenu ul li {
+	list-style: none;
+	float:left;
+	line-height : 100px;
+	text-align: center;
+}
+.menuLink {
+	text-decoration: none;
+	color : gray;
+	display: block;
+	padding : 10px;
+}
+#topMenu .menuLink:hover {
+	text-decoration: underline;
+}
+.selectedMenu{
+	margin: 150px 300px 0;
+}
+
+* {
+	box-sizing: border-box; /* width에 border와 padding이 포함 */
+}
+.imagebox {
+	width:400px; height:500px; 
+	border: 1px solid black;
+	margin : 150px auto 100px;
+}
+.bg1 { 
+	background-image: url("../practice_shoppingmall/8.jpg");
+	background-size: 100% 100%; 
+}
+.container {
+	width: 900px; height: 1500px; margin: 150px auto 70px;
+	border-radius: 10px;
+ 	display: grid;
+ 	grid-template:repeat(4, auto) / repeat(3, auto);
+ 	gap:15px;
+ 	
+}
+
+.item {
+	width : 300px;  height : 370px;
+	font-size: 14px;
+	color : black;
+	border: 1px solid #eaeaea;
+	align-items: center;
+	justify-content: center;
+	background-size: 100% 100%;
+	overflow:hidden;
+}
+.item .text {
+	width : 300px; height : 370px;
+	color : black;
+	opacity: 0;
+	padding : 10px;
+	padding-top:0;
+	text-align: left;
+	
+}
+.item:hover {
+	opacity: 0.7; color: white;
+	cursor:pointer;
+}
+.item >.text:hover{
+	opacity:1; color: black;
+	font-weight: bold;
+	
+}
+
+.detail_box {
+	width:400px; height:500px; 
+	border: 1px solid black;
+	margin : 150px auto 70px;
+	background-size: 100% 100%;
+}
+
+.coment {
+	margin-bottom : 100px;
+	line-height: 25px;
+}
+.orderbox {
+	width:300px; height:100%; 
+	border: none;
+	position:fixed;
+	top:0;
+	right:0;
+	background-color: #F6F6F6;
+	color: #8C8C8C;
+}
+.orderbox_info {
+	padding-top :80px; 
+	padding-left :20px;
+	text-align: left;
+	color: #8C8C8C;
+	line-height: 22px;
+
+}
+.itemName {
+	font-weight: 600;
+}
+
+.selectbox {
+	width : 250px;
+	height : 25px;	
+	margin: 5px;
+}
+.INFO {
+	margin-top : 50px;
+}
+.sizeDetail {
+	width : 180px;
+	height : 100px;
+	margin : 40px auto;
+	line-height: 20px;
+	text-align: left;
+	
+}
+.total {
+	width:300px;
+	text-align: left;
+	margin-left : 20px;
+}
+#buyBtn {
+	width : 250px;
+	height : 35px;	
+	margin: 1px auto;
+	background-color: black;
+	color:white;
+}
+#totalPrice{
+	width : 60px;
+	height: 20px;
+	text-align : left;	
+	padding-top : 5px;
+	background-color: #F6F6F6;
+	border: none;
+}
+#toCartBtn {
+	margin-left : 0;
+	margin-top : 5px;
+	background-color: #F6F6F6;
+	border: none;
+}
+.total .btn:hover {
+	cursor:pointer;
+}
+.item1 { background-image: url("../practice_shoppingmall/1.jpg");}
+.item2 { background-image: url("../practice_shoppingmall/2.jpg");}
+.item3 { background-image: url("../practice_shoppingmall/3.jpg");}
+.item4 { background-image: url("../practice_shoppingmall/4.jpg");}		
+.item5 { background-image: url("../practice_shoppingmall/5.jpg");} 
+.item6 { background-image: url("../practice_shoppingmall/6.jpg");}
+.item7 { background-image: url("../practice_shoppingmall/7.jpg");}
+.item8 { background-image: url("../practice_shoppingmall/8.jpg");}
+.item9 { background-image: url("../practice_shoppingmall/9.jpg"); }
+.item10 { background-image: url("../practice_shoppingmall/10.jpg");}
+.item11 { background-image: url("../practice_shoppingmall/11.jpg"); }
+.item12 { background-image: url("../practice_shoppingmall/12.jpg");}
+
+
+
+
+
+footer{
+	width : 1000px;
+	margin:20px auto;
+	text-align: center;
+	line-height : 17px;
+	vertical-align: middle;
+}
+#footMenu {
+	height: 50px;
+	width : 500px;
+	margin : 0 auto;
+	
+	text-align: center;
+	line-height : 30px;
+	vertical-align: middle;
+}
+
+#footMenu ul li {
+	list-style: none;
+	background-color: white;
+	text-align: center;
+	line-height : 30px;
+	vertical-align: middle;
+	float:left;
+	margin-left : 40px;
+	padding-bottom : 0;
+}
+.businesslicense .address{
+	line-height : 30px;
+}
+#instagram {
+	font-weight: bold;
+	text-decoration: none;
+	color : gray;
+}
+
+
+/*
+login css - JD 
+Start
+*/
+
+
+
+.loginp_back{
+
+	background: #f3f5f7;
+
+}
+
+.login-box{
+	border: 1px solid #e0e1e3;
+    width: 450px;
+    background: #fff;
+    margin: 0 40px;
+}
+
+.login-h1{
+	    padding: 40px 0;
+    font-weight: bold;
+    font-size: 43px;
+    color: #4c8cff;
+    text-align: center;
+
+}
+
+.login-basepadding{
+	    padding: 0 45px;
+}
+
+.login-butt{
+	margin-top: 10px;
+    width: 100%;
+    height: 48px;
+    font-size: 16px;
+    color: white;  
+    border: none;
+    font-weight: bolder;
+    border-radius: 3px;
+}
+
+
+.login{
+	   background: black;
+}
+
+.or-div{
+	font-size: 12px;
+    color: #dddfe4;
+    text-align: center;
+    margin-bottom: 23px;
+    margin-top: 15px;
+
+}
+
+.div-text{
+	width: 100%;
+    border-bottom: 1px solid #dddfe4;
+    padding: 10px 0;
+}
+
+.div-input{
+	border: none;
+    width: 100%;
+    height: 30px;
+}
+
+.pad-15tb{
+	padding: 15px 0;
+}
+
+
+.login-a{
+	font-size: 14px;
+    color: #1ea1f7;
+}
+
+.maincenter{
+	min-height: 560px;
+	display: flex;
+    justify-content: center;
+}
+
+.loginlogo{
+	 font-size: 40px;
+    font-family: a고딕11;
+    font-weight: bold;  
+    line-height: 150px;
+}
+
+
+/*
+login css - JD 
+End
+*/
+
+/*
+bbs css - JD 
+Start
+*/
+.table {
+	width: 100%;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+.table th, .table td {
+	padding: 10px 0;
+}
+
+.table-border tr {
+	border-bottom: 1px solid #ccc; 
+}
+.table-border tr:first-child {
+	border-top: 2px solid #ccc;
+}
+
+.left{
+	text-align: left;
+	padding-left: 10px; 	
+}
+.right{
+	text-align: right;
+	padding-right: 10px; 	
+}
+.center{
+	text-align: center;
+}
+
+.line-none{
+	text-decoration: none;
+    color: #A6A6A6;
+}

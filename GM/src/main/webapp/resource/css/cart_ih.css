@@ -1,0 +1,163 @@
+@charset "UTF-8";
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-size : 14px;
+	font-family: 맑은고딕;
+	color: #A6A6A6;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+}
+
+a {
+	color: #000; text-decoration: none; cursor: pointer;
+}
+
+a:active, a:hover {
+	text-decoration: underline; color: #f28011;
+}
+.container {
+	width: 900px;  margin: 150px auto 70px;
+	border-radius: 10px;
+ 	display: grid;
+ 	grid-template:repeat(4, auto) / repeat(3, auto);
+ 	gap:15px;
+ 	
+}
+.title{
+	width : 900px;
+	text-align: left;
+}
+.btn {
+	color: #333;
+	border: 1px solid #333;
+	background-color: #fff;
+	padding: 4px 10px;
+	font-weight: 300;
+	cursor:pointer;
+	font-size: 14px;
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+	vertical-align: baseline;
+	margin : 15px 5px;;
+}
+.buttons {
+	width: 900px;
+	
+}
+.btn:hover, .btn:active, .btn:focus {
+	background-color: #e6e6e6;
+	border-color: #adadad;
+	color:#333;
+}
+.boxTF {
+	border: 1px solid #999;
+	padding: 5px 5px;
+	background-color: #fff;
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+	vertical-align: baseline;
+}
+.selectField {
+	border: 1px solid #999;
+	padding: 4px 5px;
+	border-radius: 4px;
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+	vertical-align: baseline;
+}
+
+.boxTA {
+    border:1px solid #999;
+    height:150px;
+    padding:3px 5px;
+    border-radius:4px;
+    background-color:#fff;
+	resize : none;
+	vertical-align: baseline;
+}
+
+textarea {
+	resize: none;
+	min-height: 300px;
+}
+
+textarea:focus, input:focus {
+	outline: none;
+}
+
+.table {
+	width: 900px; border-spacing: 0; border-collapse: collapse;
+	clear: both;
+	font-weight: 300;
+	margin-top : 15px;
+}
+.table th, .table td {
+	padding: 10px 0;
+}
+
+.table-border tr {
+	border-bottom: 1px solid #ccc;
+}
+.table-border tr:first-child {
+	border-top: 2px solid #ccc;
+}
+
+.table-form td {
+	padding: 7px 0;
+}
+
+.table-form tr > td:first-child {
+	text-align: center;
+	background: #eee;
+	width: 100px;
+}
+
+.table-form tr > td:nth-child(2) {
+	padding-left: 10px;
+}
+
+.table-form input[type=text], .table-form textarea {
+	width: 96%;
+}
+
+.cart-container {
+	width: 900px;
+	margin: 150px auto 70px;
+	padding: 5px 0px;
+}
+
+.table-form tr > td:first-child, .table-form tr > th:first-child {
+	text-align: center;
+	background: #eee;
+	width: 50px;
+}
+
+.table-form .img {
+	max-width:100%; height:auto; resize:both;
+}
+
+.table-cart tr:first-child > td {
+	text-align: center;
+	background: #eee;
+}
+
+.table-form tr > td:nth-child(2) {
+	text-align: center;
+	padding-left: 0;
+	height: 150px;
+	width: 100px;
+}
+
+.cart-btn {
+	padding: 1px;
+}
+
+.table-cart input[type=text] {
+	width: 50px;
+	padding: 2px;
+}
+
+.msg-box {
+	text-align: center; color: blue;
+}
