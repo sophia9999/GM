@@ -13,7 +13,7 @@
 			<li><a class="menuLink" href="#">Q/A</a></li>
 			<li><a class="menuLink" href="#">MY PAGE</a></li>
 			<li><a class="menuLink" href="${pageContext.request.contextPath}/member/login.do">LOGIN</a></li>
-			<li><a class="menuLink" href="#">JOIN US</a></li>
+			<li><a class="menuLink" href="${pageContext.request.contextPath}/member/join.do">JOIN US</a></li>
 			<li><a class="menuLink" href="#">CART</a></li>
 		</ul>
 	</nav>

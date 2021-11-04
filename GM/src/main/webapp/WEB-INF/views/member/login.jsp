@@ -50,10 +50,9 @@ function sendLogin() {
 
 </head>
 <body>
-
-    <jsp:include page="../layout/header.jsp"></jsp:include>
-
-	
+<header>
+	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+</header>
 <main>
 	<div class="wrap  maincenter">
 	<div class="login-box">
@@ -88,8 +87,11 @@ function sendLogin() {
 
 </main>
 
+<footer>
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 
-    <jsp:include page="../layout/footer.jsp"></jsp:include>
+</footer>
+    
 
 </body>
 </html>

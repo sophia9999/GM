@@ -10,7 +10,7 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/tablestyle_ih.css" type="text/css">
+<link rel="stylesheet" href="/WEB-INF/views/resource/css/tablestyle_ih.css" type="text/css">
 
 
 <style type="text/css">
@@ -133,7 +133,7 @@
 	</form>
 </div>
 <footer>
-	<jsp:include page="${pageContext.request.contextPath}/layout/footer.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </footer>	
 
 </body>

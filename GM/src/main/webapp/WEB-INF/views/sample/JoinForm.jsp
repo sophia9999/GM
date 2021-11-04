@@ -109,7 +109,7 @@ function changeEmail() {
 </head>
 <body>
 <header>
-	<jsp:include page="${pageContext.request.contextPath}/layout/header.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 
 </header>
 <main>
@@ -275,7 +275,7 @@ function changeEmail() {
     </div>
 </main>
 <footer>
-	<jsp:include page="${pageContext.request.contextPath}/layout/footer.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 
 </footer>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
