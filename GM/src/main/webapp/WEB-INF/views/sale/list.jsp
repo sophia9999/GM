@@ -1,140 +1,87 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%@ page trimDirectiveWhitespaces="true" %>
+<%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>GM : 판매내역 및 매출현황</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/tablestyle_ih.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/styleny.css" type="text/css">
 
 <style type="text/css">
-
 
 </style>
 </head>
 <body>
 <header>
-	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+    <jsp:include page="../layout/header.jsp"></jsp:include>
 </header>
-
 <div class="container">
-	<form method="post">
-	<div class="title">
-		<h3><span>|</span> 주문내역</h3>
+	<form>
+	<div class="title" >
+		<h3><span>|</span> 판매내역</h3>
 	</div>
-		<!-- 
-		<table class="table">
+	      
+	<table class="table table-border table-form" style="clear:both;">
 			<tr>
-				 <td width="50%">
-					
-					&nbsp;
-				</td> 
-				<td align="right">10개(10/10 페이지)</td>
+				<th>주문번호</th>
+				<th style="width: 120px;">상품코드</th>
+				<th>상품명</th>
+				<th>단가</th>
+				<th>재고</th>
 			</tr>
-		</table>    -->
-		
-		<table class="table table-border table-list">
 			<tr>
-				<th class="num">번호</th>
-				<th class="subject">제목</th>
-				<th class="name">작성자</th>
-				<th class="date">작성일</th>
-				<th class="hit">조회수</th>
-			</tr>
-			
-			
-				<tr>
-					<td>1</td>
-					<td class="left">
-						<a href="#" class="line-none">테스트</a>
-					</td>
-					<td>홍길동</td>
-					<td>9999-99-99</td>
-					<td>9</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td class="left">
-						<a href="#" class="line-none" >테스트</a>
-					</td>
-					<td>홍길동</td>
-					<td>9999-99-99</td>
-					<td>9</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td class="left">
-						<a href="#" class="line-none" >테스트</a>
-					</td>
-					<td>홍길동</td>
-					<td>9999-99-99</td>
-					<td>9</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td class="left">
-						<a href="#" class="line-none" >테스트</a>
-					</td>
-					<td>홍길동</td>
-					<td>9999-99-99</td>
-					<td>9</td>
-				</tr>
-			
-		</table>
-		
-		<div class="page-box">
-			페이지처리 
-		</div>
+				<td>20211103-01</td>
+				<td>여기에는 코드</td>
+				<td>블랙 진</td>
+				<td style="text-align: right;">8,000</td>
+				<td style="text-align: right;">20</td>
+			</tr> 
+	</table>  
 	
-		<div class="buttons">
-			<button type="button" class="btn" style="float:left">새로고침</button>
-			<select name="condition" class="selectField">
-				<option value="all"     >제목+내용</option>
-				<option value="userName">작성자</option>
-				<option value="reg_date"  >등록일</option>
-				<option value="subject"  >제목</option>
-				<option value="content" >내용</option>
-			</select>
-			<input type="text" name="keyword" class="boxTF" size="30">
-			<button type="button" class="btn" onclick="searchList();">검색</button>
-			<button type="button" class="btn" style="float:right">글올리기</button>
-			
-		</div> 
- 	
- 	<!--  
-		<table class="buttons">
+	<div class="page-box">
+			여기는 페이지처리하시면됩니다.
+	</div>
+	 
+	
+	<div class="title" style="padding-top: 30px;">
+		<h3><span>|</span> 매출현황</h3>
+	</div>
+	
+	<table class="table table-border table-form">
 			<tr>
-				<td width="100">
-					<button type="button" class="btn" style="float:left">새로고침</button>
-				</td>
-				<td align="center">
-					<form name="searchForm" action="" method="post">
-						<select name="condition" class="selectField">
-							<option value="all"     >제목+내용</option>
-							<option value="userName">작성자</option>
-							<option value="reg_date"  >등록일</option>
-							<option value="subject"  >제목</option>
-							<option value="content" >내용</option>
-						</select>
-						<input type="text" name="keyword" class="boxTF">
-						<button type="button" class="btn" onclick="searchList();">검색</button>
-					</form>
-				</td>
-				<td align="right" width="100">
-					<button type="button" class="btn"style="float:right">글올리기</button>
-				</td>
+				<th style="width: 120px;">
+					<select name="condition" class="selectField">
+						<option value="all">전체매출</option>
+						<option value="month">연 매출</option>
+						<option value="month">월 매출</option>
+						<option value="day" selected="selected">일 매출</option>
+					</select>
+				</th>
+				<th style="width: 120px;">상품코드</th>
+				<th>상품명</th>
+				<th>단가</th>
+				<th style="width: 120px;">매출금액</th>
 			</tr>
-		</table>
-	-->
+			<tr>
+				<td>오늘 2021-11-03</td>
+				<td>상품코드코드코드</td>
+				<td>상품명상품명 바지바지옷</td>
+				<td style="text-align: right;">단가단가</td>
+				<td style="text-align: right;">2,000,000원</td>
+			</tr>
+	</table>
+	
+	<div class="page-box">
+			여기는 페이지처리하시면됩니다. 
+	</div>
 	</form>
-</div>			
-
-
+</div>
 <footer>
-		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
-</footer>	
+	<jsp:include page="../layout/footer.jsp"></jsp:include>
+</footer>
 </body>
 </html>

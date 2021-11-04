@@ -135,8 +135,8 @@
 
 
 <footer>
-		<jsp:include page="${pageContext.request.contextPath}/layout/footer.jsp"></jsp:include>
-	
-</footer>	
+	<jsp:include page="${pageContext.request.contextPath}/layout/footer.jsp"></jsp:include>
+
+</footer>
 </body>
 </html>

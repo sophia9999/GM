@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-<link rel="stylesheet" href="../style_ny.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/styleny.css" type="text/css">
 <script type="text/javascript">
 /*    //수량에 따른 가격 변경 작동안됨 html코드로 적어서 그런 듯
 var sell_price;
@@ -136,6 +136,11 @@ function change () {
 	</p>
 </main>
 
+		<div class="buttons">
+			<button type="button" class="btn" style="float:left">수정</button>
+			<button type="reset" class="btn" style="float:left">삭제</button>
+			<button type="button" class="btn" style="float:right">목록</button>
+		</div>
 <footer>
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 </footer>
