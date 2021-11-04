@@ -5,7 +5,7 @@
 
 
 
-	<a id="logo" href="#">Garment Market</a>
+	<a id="logo" href="${pageContext.request.contextPath}/main.do">Garment Market</a>
 
 	<nav id="topMenu">
 		<ul>
