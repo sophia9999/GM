@@ -4,9 +4,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
+<script type="text/javascript" src="${pageContext.request.contextPath}/resource/jquery/js/jquery.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/util-jquery.js"></script>
 
-	<a id="logo" href="${pageContext.request.contextPath}/main.do">Garment Market</a>
-
+<a id="logo" href="${pageContext.request.contextPath}/main.do">Garment Market</a>
 	<nav id="topMenu">
 		<ul>
 			<c:choose>
