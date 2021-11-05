@@ -41,7 +41,8 @@
 
 <main>
 	<div class="container">
-	<div class="item item1">
+		<div class="item item1">
+			<img alt="&nbsp;" src="#" style="width: 100%; height: 100%;">
 			<p>Beige dotted onepiece<br>46,000 won</p>
 		</div>
 	</div>
@@ -52,7 +53,7 @@
 	</div>
 	<c:if test="${sessionScope.member.userId=='admin'}">
 		<div class="buttons">
-			<button type="button" class="btn">등록하기</button>
+			<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/shop/garment-write.do';">상품등록</button>
 		</div>
 	</c:if>
 </main>
