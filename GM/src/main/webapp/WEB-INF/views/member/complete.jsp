@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/style_ny.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/style_hg.css" type="text/css">
 
 <style type="text/css">
@@ -25,9 +25,12 @@
 <div class="wrap  maincenter">
 	<div class="login-box">
 			<a class="loginlogo">GarmentMarket </a>
-				<p>메시지 출력/주문이완료되었습니다/회원가입을 축하합니다~ </p>		
+				<h2>🎉🎉 회원가입을 축하합니다~ 🎉🎉</h2>		
+		<div class="btn-box">
+                      <button class="btn" type="button" style="border: none;" onclick="location.href='${pageContext.request.contextPath}/';" class="btnConfirm">메인화면으로 이동</button>
+   		  </div>
 	</div>
-
+	 
 </div>
 
 <footer>

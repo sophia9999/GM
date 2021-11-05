@@ -10,6 +10,7 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/joinForm_ih.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/styleny.css" type="text/css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 
@@ -19,8 +20,8 @@ function memberOk() {
 	var str;
 
 	str = f.userId.value;
-	if( !/^[a-z][a-z0-9_]{4,9}$/i.test(str) ) { 
-		alert("아이디를 다시 입력 하세요. ");
+	if("${mode}"=="join"&&$("#userId").attr("data-ck")!="true" ) { 
+		alert("아이디 중복검사하세요. ");
 		f.userId.focus();
 		return;
 	}
@@ -87,7 +88,7 @@ function memberOk() {
         return;
     }
 
-   	f.action = address; <!--"${pageContext.request.contextPath}/member/${mode}_ok.do";-->
+   	f.action = "${pageContext.request.contextPath}/member/${mode}_ok.do";
     f.submit();
 }
 function changeEmail() {
@@ -105,6 +106,42 @@ function changeEmail() {
         f.email1.focus();
     }
 }
+<c:if test="${mode=='join'}">
+function id_ck(){
+	const userid = document.memberForm.userId.value;
+	
+	if( !/^[a-z][a-z0-9_]{4,9}$/i.test(userid) ) { 
+		alert("아이디를 다시 입력 하세요. ");
+		return;
+	}
+	
+	$.ajax({	
+		type:"get",
+		url:"${pageContext.request.contextPath}/member/userIdCheck.do",
+		data:"userId="+userid,
+		dataType:"json",
+		success:function(data){
+			console.log(data.userId);
+			$("#userId").attr("data-ck",data.userId);
+			$("#userId").prop("disabled",true);
+		},
+		beforeSend:function(jqXHR){
+			jqXHR.setRequestHeader("AJAX",true);
+		},
+		error:function(jqXHR){
+			if(jqXHR.status ===403){
+				return false;
+			}else if(jqXHR===405){
+				alert("접근을허용하지않습니다");
+				return false;
+			}
+			console.log(jqXHR.responseText);
+		}
+		
+	});
+	
+};
+</c:if>
 </script>
 
 </head>
@@ -125,9 +162,14 @@ function changeEmail() {
 				<td>아&nbsp;이&nbsp;디</td>
 				<td>
 					<p>
-						<input type="text" name="userId" id="userId" maxlength="10" class="boxTF" value="${dto.userId}" style="width: 50%;" ${mode=="update" ? "readonly='readonly' ":""}>
+						<input  type="text" name="userId" id="userId" maxlength="10" class="boxTF" value="${dto.userId}" style="width: 50%;" ${mode=="update" ? "readonly='readonly' ":""}>
+					<c:if test="${mode}=='join'">
+						<button type="button" class="btn" onclick="id_ck();">아이디중복 검사</button>
+					</c:if>	
 					</p>
-					<p class="help-block">아이디는 우리가디비에설정한크기 이내이며, 첫글자는 영문자로 시작해야 합니다.</p>
+					<p class="help-block">아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.</p>
+					
+
 				</td>
 			</tr>
 		
@@ -137,7 +179,7 @@ function changeEmail() {
 					<p>
 						<input type="password" name="userPwd" class="boxTF" maxlength="10" style="width: 50%;">
 					</p>
-					<p class="help-block">패스워드는 우리가디비에설정한크기 이내이며, 하나 이상의 숫자나 특수문자가 포함되어야 합니다.</p>
+					<p class="help-block">패스워드는 5~10자 이내이며, 하나 이상의 숫자나 특수문자가 포함되어야 합니다.</p>
 				</td>
 			</tr>
 		
@@ -214,7 +256,7 @@ function changeEmail() {
 			<tr>
 				<td>우편번호</td>
 				<td>
-					<input type="text" name="zip" id="zip" maxlength="7" class="boxTF" value="${dto.zip}" readonly="readonly" style="width: 50%;">
+					<input type="text" name="zip" id="zip" maxlength="7" class="boxTF" value="${dto.code}" readonly="readonly" style="width: 50%;">
 					<button type="button" class="btn" onclick="daumPostcode();">우편번호검색</button>
 				</td>
 			</tr>
@@ -223,54 +265,23 @@ function changeEmail() {
 				<td valign="top">주&nbsp;&nbsp;&nbsp;&nbsp;소</td>
 				<td>
 					<p>
-						<input type="text" name="addr1" id="addr1" maxlength="50" class="boxTF" value="${dto.addr1}" readonly="readonly" style="width: 96%;">
+						<input type="text" name="addr1" id="addr1" maxlength="50" class="boxTF" value="${dto.address}" readonly="readonly" style="width: 96%;">
 					</p>
 					<p class="block">
-						<input type="text" name="addr2" id="addr2" maxlength="50" class="boxTF" value="${dto.addr2}" style="width: 96%;">
+						<input type="text" name="addr2" id="addr2" maxlength="50" class="boxTF" value="${dto.address_detail}" style="width: 96%;">
 					</p>
 				</td>
 			</tr>
 			
 		</table>
 		
-		<table class="table">
-			<c:if test="${mode=='member'}">
-				<tr>
-					<td align="center">
-						<span>
-							<input type="checkbox" name="terms" value="1" checked="checked" onchange="form.btnOk.disabled = !checked">
-							약관에 동의하시겠습니까 ?
-						</span>
-						<span><a href="">약관보기</a></span>
-					</td>
-				</tr>
-			</c:if>
-		</table>
+	
 		<div class="buttons">
 		<button type="button" class="btn" style="float:left">등록취소</button>
 		<button type="reset" class="btn" style="float:left">다시입력</button>
-		<button type="button" class="btn" style="float:right">등록하기</button>
+		<button type="button" name="btnOk" class="btn" style="float:right" onclick="memberOk();">등록하기</button>
 		</div>
-				<!--  
-				<tr> 
-					<td align="left" style="padding-left: 5px">
-						<button type="button" class="btn">등록취소</button>
-					</td>
-					<td align="center">
-						<button type="reset" class="btn">다시입력</button>
-					</td>
-					<td align="right" style="padding-right: 5px">
-						<button type="button" class="btn">등록하기</button>
-					</td>
-				</tr> -->
-			
-		<table class="table">
-			<tr>
-				<td align="center">
-					<span class="msg-box">${message}</span>
-				</td>
-			</tr>
-		</table>
+		
 		</form>
       
     </div>

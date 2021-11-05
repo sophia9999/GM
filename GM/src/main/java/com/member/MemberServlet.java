@@ -7,12 +7,15 @@ package com.member;
  */
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.json.JSONObject;
 
 import com.util.MyServlet;
 
@@ -34,12 +37,12 @@ public class MemberServlet extends MyServlet {
 			loginSubmit(req, resp);
 		} else if(uri.indexOf("logout.do")!=-1) {
 			logout(req, resp);
-		} else if(uri.indexOf("member.do")!=-1) {
+		} else if(uri.indexOf("join.do")!=-1) {
 			memberForm(req, resp);
-		} else if(uri.indexOf("member_ok.do")!=-1) {
+		} else if(uri.indexOf("join_ok.do")!=-1) {
 			memberSubmit(req, resp);
-		} else if(uri.indexOf("pwd.do")!=-1) {
-			pwdForm(req, resp);
+		} else if(uri.indexOf("update.do")!=-1) {
+			updateForm(req, resp);
 		} else if(uri.indexOf("pwd_ok.do")!=-1) {
 			pwdSubmit(req, resp);
 		} else if(uri.indexOf("update_ok.do")!=-1) {
@@ -113,15 +116,64 @@ public class MemberServlet extends MyServlet {
 	}
 	
 	private void memberForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		String path = "/WEB-INF/views/member/JoinForm.jsp";
+		req.setAttribute("title", "회원 가입");
+		req.setAttribute("mode", "join");
+		forward(req, resp, path);
 	}
 
 	private void memberSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		try {
+			MemberDTO dto = new MemberDTO();
+			dto.setUserId(req.getParameter("userId"));
+			dto.setUserPwd(req.getParameter("userPwd"));		
+			dto.setUserName(req.getParameter("userName"));
+			
+			String birth = req.getParameter("birth").replaceAll("(\\.|\\-|\\/)", "");
+			dto.setBirth(birth);
+			
+			dto.setEmail(req.getParameter("email1")+"@"+req.getParameter("email2"));
+			dto.setTel(req.getParameter("tel1")+"-"+req.getParameter("tel2")+"-"+req.getParameter("tel3"));
+			
+			dto.setCode(Integer.parseInt(req.getParameter("zip")));
+			dto.setAddress(req.getParameter("addr1"));
+			dto.setAddress_detail(req.getParameter("addr2"));
+			
+			new MemberDAO().insertMember(dto);
+			String path = "/WEB-INF/views/member/complete.jsp";
+			forward(req, resp, path);
+		
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
-	private void pwdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+	
+	
+	private void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if (info == null) {
+			// 로그 아웃 상태이면
+			resp.sendRedirect(req.getContextPath() + "/member/login.do");
+			return;
+		}
+		
+		String userId = info.getUserId();
+		MemberDTO dto = new MemberDAO().findMember(userId);
+		
+		
+		String path = "/WEB-INF/views/member/JoinForm.jsp";
+		req.setAttribute("dto", dto);
+		req.setAttribute("title", "회원 정보 수정");
+		req.setAttribute("mode", "update");
+		
+		
+		forward(req, resp, path);
 	}
 
 	private void pwdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -129,10 +181,68 @@ public class MemberServlet extends MyServlet {
 	}
 
 	private void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		HttpSession session = req.getSession();
 
+		String cp = req.getContextPath();
+		if (req.getMethod().equalsIgnoreCase("GET")) {
+			resp.sendRedirect(cp + "/");
+			return;
+		}
+		
+		try {
+			SessionInfo info = (SessionInfo) session.getAttribute("member");
+			if (info == null) { // 로그아웃 된 경우
+				resp.sendRedirect(cp + "/member/login.do");
+				return;
+			}
+			
+			MemberDTO dto = new MemberDTO();
+			dto.setUserId(req.getParameter("userId"));
+			dto.setUserPwd(req.getParameter("userPwd"));		
+			dto.setUserName(req.getParameter("userName"));
+			
+			String birth = req.getParameter("birth").replaceAll("(\\.|\\-|\\/)", "");
+			dto.setBirth(birth);
+			
+			dto.setEmail(req.getParameter("email1")+"@"+req.getParameter("email2"));
+			dto.setTel(req.getParameter("tel1")+"-"+req.getParameter("tel2")+"-"+req.getParameter("tel3"));
+			
+			dto.setCode(Integer.parseInt(req.getParameter("zip")));
+			dto.setAddress(req.getParameter("addr1"));
+			dto.setAddress_detail(req.getParameter("addr2"));
+			
+			new MemberDAO().updateMember(dto);
+			String path = "/WEB-INF/views/member/complete.jsp";
+			forward(req, resp, path);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void userIdCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		
+		try {
+			String userId = req.getParameter("userId");
+			MemberDTO dto = new MemberDAO().findMember(userId);
+			String id = dto!=null? dto.getUserId():"true";
+			
+			
+			
+			
+			JSONObject job = new JSONObject();				
+			job.put("userId", id);
+			resp.setContentType("text/html;charset=utf-8");
+			PrintWriter out = resp.getWriter();
+			out.print(job.toString());
+			
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}	
 }
