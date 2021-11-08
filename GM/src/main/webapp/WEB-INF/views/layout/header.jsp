@@ -31,7 +31,7 @@
 						<li><a class="menuLink" href="${pageContext.request.contextPath}/member/logout.do">LOGOUT</a></li>
 						<li><a class="menuLink" href="${pageContext.request.contextPath}/member/update.do">정보수정</a></li>
 					</c:if>
-					<li><a class="menuLink" href="#">CART</a></li>
+					<li><a class="menuLink" href="${pageContext.request.contextPath}/cart/cart.do">CART</a></li>
 				</c:otherwise>
 			</c:choose>
 		</ul>
