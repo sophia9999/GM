@@ -9,140 +9,210 @@
 <title>Insert title here</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/styleny.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/tablestyle_ih.css" type="text/css">
+
+<style type="text/css">
+.comment {
+    color: black;
+    width: 600px;
+    margin: 10px auto;
+    text-align: justify;
+    font-size: 16px;
+}
+
+.itemName {
+    font-weight: 600;
+    font-size: 18px;
+    color: #3f3f3f;
+}
+
+.orderbox_info {
+    color: #3f3f3f;
+}
+
+.itemBox {
+	width: 400px;
+    height: 500px;
+    margin: 20px auto;
+}
+
+.btn {
+	width: 280px;
+    height: 40px;
+    font-size: 14px;
+}
+
+.btn1 {
+	width: 130px;
+    height: 40px;
+    font-size: 14px;
+    margin: 0 auto;
+}
+
+</style>
 <script type="text/javascript">
-/*    //수량에 따른 가격 변경 작동안됨 html코드로 적어서 그런 듯
-var sell_price;
-var amount;
 
-function init () {
-	sell_price = document.form.sell_price.value;
-	amount = document.form.amount.value;
-	document.form.sum.value = sell_price;
-	change();
-}
-
-function add () {
-	hm = document.form.amount;
-	sum = document.form.sum;
-	hm.value ++ ;
-
-	sum.value = parseInt(hm.value) * sell_price;
-}
-
-function del () {
-	hm = document.form.amount;
-	sum = document.form.sum;
-		if (hm.value > 1) {
-			hm.value -- ;
-			sum.value = parseInt(hm.value) * sell_price;
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR) {
+			 if(jqXHR.status === 405) {
+				return false;
+			}
+	    	
+			console.log(jqXHR.responseText);
 		}
+	});
 }
 
-function change () {
-	hm = document.form.amount;
-	sum = document.form.sum;
-
-		if (hm.value < 0) {
-			hm.value = 0;
-		}
-	sum.value = parseInt(hm.value) * sell_price;
-}    
-*/
+function imageViewer(img) {
+	var viewer = $(".photo-layout");
+	var s="<img src='"+img+"'>";
+	viewer.html(s);
+	
+	$(".dialog-photo").dialog({
+		title:"이미지",
+		width: 600,
+		height: 530,
+		modal: true
+	});
+}
 </script>
 </head>
 <body>
 <header>
-    <jsp:include page="../layout/header.jsp"></jsp:include>
+    <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 	<div class= "orderbox">
 		<p class="orderbox_info">
-			<span class="itemName"> Beige dotted onepiece</span><br>
-			<span class="itemPrice">46,000 won</span><br>
-			2,500won (70,000won 이상 구매 시 무료)<br>	
+			<span class="itemName">${dto.clothname}</span><br>
+			<span class="itemPrice">${price}</span><br>
+			<br>배송비 ￦2,500<br>(￦70,000 이상 구매 시 무료)<br>	
 		</p>
 			
-		<form name="form" method="get">
-			<select class="selectbox" id="sizeBox" required>
-				<option value= "size">::사이즈::</option>
-				<option value= "s">S</option>
-				<option value= "m">M</option>
-				<option value= "l">L</option>
-				<option value= "xl">XL</option>
+		<form name="form" method="post">
+			<select class="selectbox" id="colorBox">
+				<option>::컬러::</option>
+				<c:forEach var="dto" items="${colorList}" varStatus="status">
+					<option value="${dto.ccnum}">${dto.color}</option>
+				</c:forEach>
+			</select>
+			<select class="selectbox" id="sizeBox">
+				<option>::사이즈::</option>
 			</select><br>
-			<input type=hidden name="sell_price" value="46000">
-			<input type="text" name="amount" value="1" size="22" onchange="change();">
+			<input type="text" class="amount" name="amount" value="1" onchange="change()">
 			<input type="button" value=" + " onclick="add();">
 			<input type="button" value=" - " onclick="del();"><br>
 			
-			
-
-			<p class="INFO">			
-			 	 INFO <br>
-				 신축성-없음｜계절감- 봄/여름｜안감-있음<br>
-				 ｜비침-약간 있음｜촉감-부드러움<br><br>
-			
-				fablic<br>
-				실크100%<br>
-			
-			</p>
-			<table class="sizeDetail">
-				<caption>상세사이즈</caption>
-				<thead>
-					<tr>
-						<td>사이즈</td>
-						<td>S</td>
-						<td>M</td>
-						<td>L</td>
-						<td>XL</td>
-					</tr>
-					<tr>
-						<td>길이</td>
-						<td>80</td>
-						<td>82</td>
-						<td>84</td>
-						<td>86</td>
-					</tr>
-					<tr>
-						<td>어깨</td>
-						<td>34</td>
-						<td>36</td>
-						<td>38</td>
-						<td>40</td>
-					</tr>
-					<tr>
-						<td>가슴</td>
-						<td>38</td>
-						<td>40</td>
-						<td>42</td>
-						<td>44</td>
-					</tr>
-				</thead>
-			</table>
 			<div class = "total">
 			Total<br>
-			<input id="totalPrice" type="text" name="sum" size="11" readonly>won<br><br>
+			<input id="totalPrice" type="text" name="sum" size="11" readonly="readonly" value="${dto.price}">￦<br><br>
 			<input class="btn" id="buyBtn" type="submit" value = "Buy Now">
 			<input class="btn" id="toCartBtn" type="submit"  value = "Add To Cart">
+			</div>
+			
+			<div class="detail-add">
+				<c:if test="${sessionScope.member.userId=='admin'}">
+					<button type="button" class="btn btn1" onclick="location.href='${pageContext.request.contextPath}/shop/garment-detail.do?num=${dto.cnum}&page=${page}';">색상/사이즈 관리</button>
+				</c:if>
 			</div>
 		</form>
 	</div>
 </header>
 <main>
-	<div class= "detail_box item1" ></div>
-	<p class="coment">
-		트렌디한 무드의 베이지 검정도트 원피스입니다.<br>
-		실크100 소재의 부드러운 텍스처로 편안한 착용이 가능합니다.<br>
-		베이지색 바탕에 검정 도트무늬가 포인트가 되어 경쾌한 느낌을 줍니다.<br><br>	 
- 
+	<div class= "detail_box" style="margin: 150px auto 0;">
+		<img style="width: 100%; height: 100%;" src="${pageContext.request.contextPath}/uploads/photo/${dto.imageFilename}"
+			onclick="imageViewer('${pageContext.request.contextPath}/uploads/photo/${dto.imageFilename}');">
+	</div>
+	<h4 style="font-size: 20px;">INFO</h4>
+	<p class="comment">
+		${dto.ccoment}
 	</p>
+		<c:forEach var="vo" items="${listFile}">
+			<div class="itemBox">
+				<img style="width: 100%; height: 100%;" src="${pageContext.request.contextPath}/uploads/photo/${vo.imageFilename}">
+			</div>
+		</c:forEach>
 </main>
-
-		<div class="buttons">
-			<button type="button" class="btn" style="float:left">수정</button>
-			<button type="reset" class="btn" style="float:left">삭제</button>
-			<button type="button" class="btn" style="float:right">목록</button>
+		<div>
+			<c:if test="${sessionScope.member.userId=='admin'}">
+				<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/shop/garment-update.do?num=${dto.cnum}&page=${page}';">수정</button>
+			</c:if>
+			<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/shop/garment.do?page=${page}';">목록</button>
 		</div>
 <footer>
-	<jsp:include page="../layout/footer.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </footer>
+
+<div class="dialog-photo">
+      <div class="photo-layout"></div>
+</div>
+
+<script type="text/javascript">
+
+function add() {
+	var amount = document.form.amount;
+	amount.value = parseInt(amount.value) + 1;
+	if(amount.value < 1) {
+		amount.value = 1;		
+	}
+	var qty = amount.value;
+	var sum = document.form.sum;
+	sum.value = ${dto.price} * qty;
+}
+function change() {
+	var amount = document.form.amount;
+	
+	if(amount.value < 1){
+		amount.value = 1;
+		amount.focus();
+		alert("정확한 수량을 입력해주세요.");
+	}
+	var qty = amount.value;
+	var sum = document.form.sum;
+	sum.value = ${dto.price} * qty;
+}
+	
+function del() {
+	var amount = document.form.amount;
+	if(amount.value > 1) {
+		amount.value = parseInt(amount.value) - 1;		
+	}
+	var qty = amount.value;
+	var sum = document.form.sum;
+	sum.value = ${dto.price} * qty;
+}
+
+$(function() {
+	$("#colorBox").on("change", function() {
+		if(this.value == ""){
+			return false;
+		}
+		var ccnum = $(this).find(":selected").val();
+		// alert(ccnum);
+		
+		var url = "${pageContext.request.contextPath}/shop/garment-sizeList.do";
+		var query = "ccnum="+ccnum;
+		var selector = "#sizeBox";
+		var fn = function(data) {
+			$(selector).empty();
+			$(selector).append(data);
+		};
+		ajaxFun(url, "post", query, "html", fn)
+		
+	});
+});
+
+
+</script>
+
 </body>
 </html>

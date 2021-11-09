@@ -9,12 +9,19 @@ public class ShopDTO {
 	private String ccoment;
 	private int price;
 	private int discount;
-	private String season;
-	private String ccnum;
+	private String season; 
+	private int ccnum;
 	private String color;
-	private String cdnum;
+	private int cdnum;
 	private String size;
 	private int stock;
+	private int unitPrice;
+	private String tname;
+	
+	private int fileNum;
+	private String imageFilename;
+	private String[] imageFiles;
+
 
 	public int getCnum() {
 		return cnum;
@@ -88,11 +95,11 @@ public class ShopDTO {
 		this.season = season;
 	}
 
-	public String getCcnum() {
+	public int getCcnum() {
 		return ccnum;
 	}
 
-	public void setCcnum(String ccnum) {
+	public void setCcnum(int ccnum) {
 		this.ccnum = ccnum;
 	}
 
@@ -104,11 +111,11 @@ public class ShopDTO {
 		this.color = color;
 	}
 
-	public String getCdnum() {
+	public int getCdnum() {
 		return cdnum;
 	}
 
-	public void setCdnum(String cdnum) {
+	public void setCdnum(int cdnum) {
 		this.cdnum = cdnum;
 	}
 
@@ -126,5 +133,45 @@ public class ShopDTO {
 
 	public void setStock(int stock) {
 		this.stock = stock;
+	}
+
+	public int getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(int unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+
+	public String getImageFilename() {
+		return imageFilename;
+	}
+
+	public void setImageFilename(String imageFilename) {
+		this.imageFilename = imageFilename;
+	}
+
+	public String[] getImageFiles() {
+		return imageFiles;
+	}
+
+	public void setImageFiles(String[] imageFiles) {
+		this.imageFiles = imageFiles;
+	}
+
+	public int getFileNum() {
+		return fileNum;
+	}
+
+	public void setFileNum(int fileNum) {
+		this.fileNum = fileNum;
+	}
+
+	public String getTname() {
+		return tname;
+	}
+
+	public void setTname(String tname) {
+		this.tname = tname;
 	}
 }
