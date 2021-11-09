@@ -8,6 +8,8 @@ package com.member;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -49,6 +51,8 @@ public class MemberServlet extends MyServlet {
 			updateSubmit(req, resp);
 		} else if(uri.indexOf("userIdCheck.do")!=-1) {
 			userIdCheck(req, resp);
+		} else if(uri.indexOf("deleteUser.do")!=-1) {
+			deleteUser(req, resp);
 		}
 	}
 
@@ -124,6 +128,7 @@ public class MemberServlet extends MyServlet {
 
 	private void memberSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
+		
 			MemberDTO dto = new MemberDTO();
 			dto.setUserId(req.getParameter("userId"));
 			dto.setUserPwd(req.getParameter("userPwd"));		
@@ -140,6 +145,10 @@ public class MemberServlet extends MyServlet {
 			dto.setAddress_detail(req.getParameter("addr2"));
 			
 			new MemberDAO().insertMember(dto);
+			String msg = "🎉🎉🎉🎉회원가입을 축하드립니다🎉🎉🎉🎉";
+			msg = URLDecoder.decode(msg, "utf-8");
+			req.setAttribute("msg", msg);
+			
 			String path = "/WEB-INF/views/member/complete.jsp";
 			forward(req, resp, path);
 		
@@ -213,6 +222,8 @@ public class MemberServlet extends MyServlet {
 			dto.setAddress_detail(req.getParameter("addr2"));
 			
 			new MemberDAO().updateMember(dto);
+			String msg = "🎉🎉회원정보가 수정되었습니다🎉🎉";
+			req.setAttribute("msg", msg);
 			String path = "/WEB-INF/views/member/complete.jsp";
 			forward(req, resp, path);
 			
@@ -245,4 +256,38 @@ public class MemberServlet extends MyServlet {
 		}
 		
 	}	
+	
+	
+	private void deleteUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		try {
+			String userId = req.getParameter("userId");
+			
+			System.out.println(userId);
+			
+			new MemberDAO().deleteMember(userId);
+			
+			HttpSession session = req.getSession();
+		
+
+			// 세션에 저장된 정보를 지운다.
+			session.removeAttribute("member");
+			
+			// 세션에 저장된 모든 정보를 지우고 세션을 초기화 한다.
+			session.invalidate();
+			
+			String msg = "회원이 탈퇴되었습니다😥😥";
+			req.setAttribute("msg", msg);
+			String path = "/WEB-INF/views/member/complete.jsp";
+			forward(req, resp, path);
+			
+		
+			
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}	
+	
 }
