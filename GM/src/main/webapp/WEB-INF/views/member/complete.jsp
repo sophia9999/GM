@@ -25,7 +25,7 @@
 <div class="wrap  maincenter">
 	<div class="login-box">
 			<a class="loginlogo">GarmentMarket </a>
-				<h2>🎉🎉 회원가입을 축하합니다~ 🎉🎉</h2>		
+				<h2>${msg}</h2>		
 		<div class="btn-box">
                       <button class="btn" type="button" style="border: none;" onclick="location.href='${pageContext.request.contextPath}/';" class="btnConfirm">메인화면으로 이동</button>
    		  </div>

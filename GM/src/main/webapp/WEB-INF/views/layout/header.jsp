@@ -27,7 +27,7 @@
 						<li><a class="menuLink" href="${pageContext.request.contextPath}/member/join.do">JOIN US</a></li>	
 					</c:if>
 					<c:if test="${not empty sessionScope.member }">
-						<li><a class="menuLink" href="#">MY PAGE</a></li>
+						<li><a class="menuLink" href="${pageContext.request.contextPath}/mymenu/myorder.do">MY PAGE</a></li>
 						<li><a class="menuLink" href="#"> <span style="color:black;">${sessionScope.member.userName}</span>님</a></li>
 						<li><a class="menuLink" href="${pageContext.request.contextPath}/member/logout.do">LOGOUT</a></li>
 						<li><a class="menuLink" href="${pageContext.request.contextPath}/member/update.do">정보수정</a></li>

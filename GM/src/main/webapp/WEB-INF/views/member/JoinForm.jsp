@@ -20,6 +20,8 @@ function memberOk() {
 	var str;
 
 	str = f.userId.value;
+	
+	
 	if("${mode}"=="join"&&$("#userId").attr("data-ck")!="true" ) { 
 		alert("아이디 중복검사하세요. ");
 		f.userId.focus();
@@ -87,6 +89,8 @@ function memberOk() {
         f.email2.focus();
         return;
     }
+    
+    console.log(f.userId);
 
    	f.action = "${pageContext.request.contextPath}/member/${mode}_ok.do";
     f.submit();
@@ -121,9 +125,16 @@ function id_ck(){
 		data:"userId="+userid,
 		dataType:"json",
 		success:function(data){
-			console.log(data.userId);
-			$("#userId").attr("data-ck",data.userId);
-			$("#userId").prop("disabled",true);
+			
+			
+			if(data.userId==='true'){
+				alert("중복된 아이디가 없습니다");
+				$("#userId").attr("data-ck",data.userId);
+				$("#userId").prop("readonly",true);
+			}
+			else {
+				alert("중복된 아이디입니다.");
+			}
 		},
 		beforeSend:function(jqXHR){
 			jqXHR.setRequestHeader("AJAX",true);
@@ -142,6 +153,15 @@ function id_ck(){
 	
 };
 </c:if>
+function deleteUser(){
+	
+	if(!confirm("탈퇴를 하시겠습니까?")){
+		return false;
+	}
+	
+	location.href='${pageContext.request.contextPath}/member/deleteUser.do?userId=${dto.userId}';
+	
+}
 </script>
 
 </head>
@@ -156,14 +176,14 @@ function id_ck(){
             <h3><span>|</span>회원가입</h3>
         </div>
         
-		<form name="memberForm" method="post">
+		<form name="memberForm"  method="post">
 		<table class="table table-border table-form">
 			<tr>
 				<td>아&nbsp;이&nbsp;디</td>
 				<td>
 					<p>
 						<input  type="text" name="userId" id="userId" maxlength="10" class="boxTF" value="${dto.userId}" style="width: 50%;" ${mode=="update" ? "readonly='readonly' ":""}>
-					<c:if test="${mode}=='join'">
+					<c:if test="${mode=='join'}">
 						<button type="button" class="btn" onclick="id_ck();">아이디중복 검사</button>
 					</c:if>	
 					</p>
@@ -277,9 +297,12 @@ function id_ck(){
 		
 	
 		<div class="buttons">
-		<button type="button" class="btn" style="float:left">등록취소</button>
+		<button type="button" class="btn" style="float:left" onclick="javascript:location.href='${pageContext.request.contextPath}'">등록취소</button>
 		<button type="reset" class="btn" style="float:left">다시입력</button>
 		<button type="button" name="btnOk" class="btn" style="float:right" onclick="memberOk();">등록하기</button>
+		<c:if test="${mode=='update'}">
+		<button type="button" name="btnOk" class="btn" style="float:right" onclick="deleteUser()">탈퇴</button>
+		</c:if>
 		</div>
 		
 		</form>
