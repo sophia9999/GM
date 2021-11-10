@@ -6,6 +6,9 @@
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/jquery/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/util-jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resource/jquery/css/jquery-ui.min.css" />
+<script type="text/javascript" src="${pageContext.request.contextPath}/resource/jquery/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resource/jquery/js/jquery-ui.min.js"></script>
 
 <a id="logo" href="${pageContext.request.contextPath}/main.do">Garment Market</a>
 	<nav id="topMenu">
