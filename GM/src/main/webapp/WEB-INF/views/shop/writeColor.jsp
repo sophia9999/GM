@@ -115,12 +115,25 @@ function addDetail() {
 		return;
 	}
 	
+	str = $("input[name=stock]").val().trim();
+	if(! str || str < 1) {
+		alert("수량을 입력하세요.");
+		f.size.focus();
+		return;
+	}
+	
 	if(! confirm("등록하시겠습니까 ? ")) {
 		return;
 	}
 	
-	f.action = "${pageContext.request.contextPath}/shop/garment-detailupdateSubmit.do";
-	f.submit();
+	
+	if(${mode=='write'}) {
+		f.action = "${pageContext.request.contextPath}/shop/garment-detailwrite.do";
+		f.submit();
+	} else if(${mode=='update'}) {
+		f.action = "${pageContext.request.contextPath}/shop/garment-detailupdateSubmit.do";
+		f.submit();	
+	}
 }
 </script>
 </head>
@@ -189,8 +202,8 @@ function addDetail() {
 				<td>
 					<input type="text" name="clothname" class="boxTF" maxlength="33" value="${dto.clothname}${vo.clothname}" 
 					readonly="readonly" style="background-color: #eee">
-					<input type="hidden" name="cnum" value="${vo.cnum}">
-					<input type="hidden" name="cdnum" value="${vo.cdnum}">
+					<input type="hidden" name="cnum" value="${dto.cnum}">
+					<input type="hidden" name="cdnum" value="${dto.cdnum}">
 					<input type="hidden" name="ccnum" value="${dto.ccnum}">
 				</td>
 			</tr>

@@ -639,8 +639,10 @@ public class ShopServlet extends MyUploadServlet{
 		ShopDAO dao = new ShopDAO();
 		
 		String cp = req.getContextPath();
+		
 		int cnum = Integer.parseInt(req.getParameter("cnum"));
 		int cdnum = Integer.parseInt(req.getParameter("cdnum"));
+		
 		try {
 			String size = req.getParameter("size");
 			String color = req.getParameter("color");
@@ -648,7 +650,6 @@ public class ShopServlet extends MyUploadServlet{
 			int ccnum = Integer.parseInt(req.getParameter("ccnum"));
 			
 			ShopDTO dto = new ShopDTO();
-			dto.setCnum(cnum);
 			dto.setCdnum(cdnum);
 			dto.setCcnum(ccnum);
 			dto.setSize(size);
