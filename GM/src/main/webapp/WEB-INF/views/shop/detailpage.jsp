@@ -144,7 +144,7 @@ function imageViewer(img) {
 </main>
 		<div>
 			<c:if test="${sessionScope.member.userId=='admin'}">
-				<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/shop/garment-update.do?num=${dto.cnum}&page=${page}';">수정</button>
+				<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/shop/garment-update.do?num=${dto.cnum}';">수정</button>
 			</c:if>
 			<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/shop/garment.do?page=${page}';">목록</button>
 		</div>

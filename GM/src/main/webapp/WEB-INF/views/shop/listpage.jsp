@@ -9,6 +9,8 @@
 <title>Insert title here</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/styleny.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/paginate.css" type="text/css">
+
 <style type="text/css">
 .table {
 	width: 900px;  margin: 150px auto;
@@ -60,7 +62,7 @@
 </head>
 <body>
 <header>
-    <jsp:include page="../layout/header.jsp"></jsp:include>
+    <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </header>
 
 <main>
@@ -102,7 +104,7 @@
 	</c:if>
 </main>
 <footer>
-	<jsp:include page="../layout/footer.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </footer>
 </body>
 </html>
