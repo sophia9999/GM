@@ -60,15 +60,21 @@ public class ShopServlet extends MyUploadServlet{
 		} else if (uri.indexOf("deleteFile.do") != -1) {
 			deleteFile(req, resp);
 		} else if (uri.indexOf("garment-detail.do") != -1) {
-			addDetail(req, resp);
+			manageDetail(req, resp);
 		} else if (uri.indexOf("garment-sizeList.do") != -1) {
 			articleSizeList(req, resp);
-		} else if (uri.indexOf("garment-detailwrite.do") != -1) {
-			detailWrite(req, resp);
-		} else if (uri.indexOf("garment-detailupdate.do") != -1) {
-			detailUpdate(req, resp);
-		} else if (uri.indexOf("garment-detailupdateSubmit.do") != -1) {
-			detailUpdateSubmit(req, resp);
+		} else if (uri.indexOf("garment-colorwrite.do") != -1) {
+			colorWrite(req, resp);
+		}  else if (uri.indexOf("garment-colorwriteSubmit.do") != -1) {
+			colorWriteSubmit(req, resp);
+		} else if (uri.indexOf("garment-colorupdateSubmit.do") != -1) {
+			colorUpdateSubmit(req, resp);
+		} else if (uri.indexOf("garment-sizewrite.do") != -1) {
+			sizeWrite(req, resp);
+		}  else if (uri.indexOf("garment-sizewriteSubmit.do") != -1) {
+			sizeWriteSubmit(req, resp);
+		} else if (uri.indexOf("garment-sizeupdateSubmit.do") != -1) {
+			sizeUpdateSubmit(req, resp);
 		}
 		
 	}
@@ -84,7 +90,8 @@ public class ShopServlet extends MyUploadServlet{
 		SessionInfo info= (SessionInfo)session.getAttribute("member");
 		
 		try {
-			String page = req.getParameter("page");
+			String page = "1";
+			page = req.getParameter("page");
 			int current_page = 1;
 			if(page != null) {
 				current_page = Integer.parseInt(page); 
@@ -334,8 +341,8 @@ public class ShopServlet extends MyUploadServlet{
 
 	}
 	
+	// 업데이트 완료
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 업데이트 완료
 		ShopDAO dao = new ShopDAO();
 		
 		String cp = req.getContextPath();
@@ -388,17 +395,19 @@ public class ShopServlet extends MyUploadServlet{
 				dto.setImageFiles(saveFiles);
 			}
 			
+			req.setAttribute("page", page);
+			
 			dao.updateGarment(dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		resp.sendRedirect(cp + "/shop/garment.do?page="+page);
+		resp.sendRedirect(cp + "/shop/garment.do?page=" + page);
 
 	}
 	
+	// 수정에서 파일만 삭제
 	protected void deleteFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 수정에서 파일만 삭제
 		ShopDAO dao = new ShopDAO();
 		
 		HttpSession session = req.getSession();
@@ -450,7 +459,7 @@ public class ShopServlet extends MyUploadServlet{
 	}
 
 	// 색상/사이즈 관리 페이지
-	private void addDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	private void manageDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ShopDAO dao = new ShopDAO();
 		MyUtil util = new MyUtil();
 		
@@ -466,6 +475,7 @@ public class ShopServlet extends MyUploadServlet{
 		String page = req.getParameter("page");
 		
 		int prePage = 1;
+	
 		try {
 			
 			if(req.getParameter("prePage") != null) {
@@ -482,7 +492,7 @@ public class ShopServlet extends MyUploadServlet{
 			}
 			
 			// 해당 옷의 취급 색상 개수 (전체데이터개수)
-			int dataCount = dao.colorDataCount(cnum);
+			int dataCount = dao.detailDataCount(cnum);
 			
 			// 전체 페이지 수
 			int rows = 5;
@@ -510,10 +520,8 @@ public class ShopServlet extends MyUploadServlet{
 			req.setAttribute("page", current_page);
 			req.setAttribute("paging", paging);
 			req.setAttribute("list", colorList);
-			req.setAttribute("colorList", colorList);
-			req.setAttribute("mode", "write");
 					
-			forward(req, resp, "/WEB-INF/views/shop/writeColor.jsp");
+			forward(req, resp, "/WEB-INF/views/shop/listCS.jsp");
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -521,76 +529,34 @@ public class ShopServlet extends MyUploadServlet{
 		resp.sendRedirect(cp+"/shop/garment-detail.do?num="+cnum+"&page="+page);
 	}
 	
-	protected void detailWrite(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ShopDAO dao = new ShopDAO();
-		
-		String cp = req.getContextPath();
-		
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-
-		String color = req.getParameter("color");
-		String size = req.getParameter("size");
-		int cnum = Integer.parseInt(req.getParameter("cnum"));
-		int stock = Integer.parseInt(req.getParameter("stock"));
-		// GET방식이면 리스트로
-		if(req.getMethod().equalsIgnoreCase("GET")) {
-			resp.sendRedirect(cp + "/shop/garment.do");
-			return;
-		}
-				
-		try {
-			
-			if (info == null) { // 로그인 되지 않은 경우
-				resp.sendRedirect(cp + "/member/login.do");
-				return;
-			}
-			ShopDTO dto = new ShopDTO();
-			dto.setCnum(cnum);
-			dto.setColor(color);
-			dto.setSize(size);
-			dto.setStock(stock);
-			
-			dao.insertDetail(dto);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		resp.sendRedirect(cp+"/shop/garment-detail.do?num="+cnum);
-	}
-
-	protected void detailUpdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ShopDAO dao = new ShopDAO();
+	// 컬러 추가
+	protected void colorWrite(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		MyUtil util = new MyUtil();
-		String cp = req.getContextPath();
+		ShopDAO dao = new ShopDAO();
 		
 		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		// GET방식이면 리스트로
-		if(req.getMethod().equalsIgnoreCase("GET")) {
-			resp.sendRedirect(cp + "/shop/garment.do");
-			return;
-		}
-		int cnum = Integer.parseInt(req.getParameter("cnum"));
-						
+		SessionInfo info= (SessionInfo)session.getAttribute("member");
+		
+		String cp = req.getContextPath();
+		String page = req.getParameter("page");
+		
+		int cnum = 0;
 		try {
+			
 			if (info == null) { // 로그인 되지 않은 경우
 				resp.sendRedirect(cp + "/member/login.do");
 				return;
 			}
 			
-			int cdnum = Integer.parseInt(req.getParameter("cdnum"));
+			if( req.getParameter("cnum") != null ) {
+				cnum = Integer.parseInt(req.getParameter("cnum"));	
+			} else if (req.getParameter("cnum") == null) {
+				cnum = Integer.parseInt(req.getParameter("num"));
+			}
 			
-			ShopDTO vo = dao.readColorSize(cdnum);
-			
-			req.setAttribute("mode", "update");
-			req.setAttribute("vo", vo);
-			
-			
-			ShopDTO dto = new ShopDTO();
-			dto = dao.readDetail(cnum);
-			String page = req.getParameter("page");
-			
+			req.setAttribute("mode", "write");
+			req.setAttribute("cnum", cnum);
+			session.setAttribute("member", info);
 			int current_page = 1;
 			if(page !=null) {
 				current_page = Integer.parseInt(page);
@@ -610,59 +576,220 @@ public class ShopServlet extends MyUploadServlet{
 			int end = current_page * rows;
 			
 			// 게시물 가져오기
-			List<ShopDTO> colorList = dao.colorList(start, end, cnum);
+			List<ShopDTO> colorListForPage = dao.colorListForPage(start, end, cnum);
 			
+			// 페이징 처리
+			String listUrl = cp + "/shop/garment-colorwrite.do?cnum=" + cnum;
+			String paging = util.paging(current_page, total_page, listUrl);
+			
+			req.setAttribute("paging", paging);
+			req.setAttribute("colorList", colorListForPage);
+			req.setAttribute("total_page", total_page);
+			req.setAttribute("dataCount", dataCount);
+			req.setAttribute("page", current_page);
+			
+			// 컬러 수정 눌렀을 때
+			if( req.getParameter("ccnum") != null) {
+				int ccnum = Integer.parseInt(req.getParameter("ccnum"));				
+				ShopDTO dto = dao.colorUpdate(ccnum);
+				
+				req.setAttribute("dto", dto);
+				req.setAttribute("mode", "update");
+			}
+
+			forward(req, resp, "/WEB-INF/views/shop/color.jsp");
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// resp.sendRedirect(cp+"/shop/garment-colorWrite.do?cnum="+cnum);
+	}
+	
+	// 색상/사이즈 관리 -> 색상관리 -> 컬러 추가
+	protected void colorWriteSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ShopDAO dao = new ShopDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info= (SessionInfo)session.getAttribute("member");
+		
+		session.setAttribute("member", info);
+		req.setAttribute("mode", "write");
+		
+		String cp = req.getContextPath();
+		int cnum = Integer.parseInt(req.getParameter("num"));
+		try {
+			String color = req.getParameter("color");
+
+			dao.inserColor(cnum, color);
+			
+			req.setAttribute("cnum", cnum);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		resp.sendRedirect(cp + "/shop/garment-detail.do?num="+cnum);
+	}
+		
+	// 컬러 업데이트 서버에 보내기
+	protected void colorUpdateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ShopDAO dao = new ShopDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info= (SessionInfo)session.getAttribute("member");
+		
+		session.setAttribute("member", info);
+		req.setAttribute("mode", "write");
+		
+		String cp = req.getContextPath();
+		String cnum = req.getParameter("cnum");
+		
+		try {
+			int ccnum = Integer.parseInt(req.getParameter("ccnum"));
+			String color = req.getParameter("color");
+			
+			dao.updateColor(ccnum, color);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		resp.sendRedirect(cp + "/shop/garment-detail.do?num="+cnum);
+	}
+	
+	// 사이즈 관리 리스트, 폼
+	protected void sizeWrite(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ShopDAO dao = new ShopDAO();
+		MyUtil util = new MyUtil();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info =(SessionInfo)session.getAttribute("member");
+
+		String cp = req.getContextPath();
+		
+		String page = req.getParameter("page");
+	
+		try {
+			
+			int cnum = Integer.parseInt(req.getParameter("cnum"));
+			
+			if (info == null) { // 로그인 되지 않은 경우
+				resp.sendRedirect(cp + "/member/login.do");
+				return;
+			}
+			
+			int current_page = 1;
+			if(page !=null) {
+				current_page = Integer.parseInt(page);
+			}
+			
+			// 해당 옷의 취급 색상 개수 (전체데이터개수)
+			int dataCount = dao.detailDataCount(cnum);
+			
+			// 전체 페이지 수
+			int rows = 5;
+			int total_page = util.pageCount(rows, dataCount);
+			if (current_page > total_page) {
+				current_page = total_page;
+			}
+
+			int start = (current_page - 1) * rows + 1;
+			int end = current_page * rows;
+			
+			// 게시물 가져오기
+			List<ShopDTO> colorList = dao.colorList(start, end, cnum);
+			List<ShopDTO> realColorList = dao.realColorList(cnum);
+					
 			// 페이징 처리
 			String listUrl = cp + "/shop/garment-detail.do?num=" + cnum;
 			String paging = util.paging(current_page, total_page, listUrl);
 						
 			req.setAttribute("page", page);
-			req.setAttribute("num", cnum);
-			req.setAttribute("dto", dto);
+			req.setAttribute("cnum", cnum);
 			req.setAttribute("total_page", total_page);
 			req.setAttribute("dataCount", dataCount);
 			req.setAttribute("page", current_page);
 			req.setAttribute("paging", paging);
 			req.setAttribute("list", colorList);
-			req.setAttribute("colorList", colorList);
+			req.setAttribute("num", cnum);
+			req.setAttribute("realColorList", realColorList);
+			req.setAttribute("mode", "write");
 			
-			forward(req, resp, "/WEB-INF/views/shop/writeColor.jsp");
+			// 사이즈 수정 눌렀을 때
+			if( req.getParameter("cdnum") != null) {
+				int cdnum = Integer.parseInt(req.getParameter("cdnum"));				
+				ShopDTO dto = dao.sizeUpdate(cdnum);
+				
+				req.setAttribute("updateDto", dto);
+				req.setAttribute("mode", "update");
+			}
+			
+			forward(req, resp, "/WEB-INF/views/shop/size.jsp");
 			return;
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		resp.sendRedirect(cp+"/shop/garment-detail.do?num="+cnum);
+		// resp.sendRedirect(cp + "/shop/garment-detail.do?cnum="+cnum);
 	}
 	
-	protected void detailUpdateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	
+	// 사이즈 추가
+	protected void sizeWriteSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ShopDAO dao = new ShopDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info= (SessionInfo)session.getAttribute("member");
+		
+		session.setAttribute("member", info);
+		req.setAttribute("mode", "write");
 		
 		String cp = req.getContextPath();
 		
-		int cnum = Integer.parseInt(req.getParameter("cnum"));
-		int cdnum = Integer.parseInt(req.getParameter("cdnum"));
+		int cnum = 0;
 		
 		try {
-			String size = req.getParameter("size");
-			String color = req.getParameter("color");
-			int stock = Integer.parseInt(req.getParameter("stock"));
+			if( req.getParameter("cnum")!=null) {
+				cnum = Integer.parseInt(req.getParameter("cnum"));
+			} else if (req.getParameter("num") != null) {
+				cnum = Integer.parseInt(req.getParameter("num"));
+			}
+			
 			int ccnum = Integer.parseInt(req.getParameter("ccnum"));
+			int stock = Integer.parseInt(req.getParameter("stock"));
+			String size = req.getParameter("size");
 			
-			ShopDTO dto = new ShopDTO();
-			dto.setCdnum(cdnum);
-			dto.setCcnum(ccnum);
-			dto.setSize(size);
-			dto.setStock(stock);
-			dto.setColor(color);
+			req.setAttribute("cnum", cnum);
 			
-			dao.updateColor(dto);
+			dao.insertSize(ccnum, size, stock);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		resp.sendRedirect(cp+"/shop/garment-detail.do?num="+cnum);
-		
+		resp.sendRedirect(cp + "/shop/garment-detail.do?num="+cnum);
 	}
+	
+	// 사이즈 업데이트 서버에 보내기
+	protected void sizeUpdateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ShopDAO dao = new ShopDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info= (SessionInfo)session.getAttribute("member");
+		
+		session.setAttribute("member", info);
+		req.setAttribute("mode", "write");
+		
+		String cp = req.getContextPath();
+		String cnum = req.getParameter("cnum");
+		
+		try {
+			int cdnum = Integer.parseInt(req.getParameter("cdnum"));
+			String size = req.getParameter("size");
+			int stock = Integer.parseInt(req.getParameter("stock"));
+			dao.updateSize(cdnum, size, stock);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		resp.sendRedirect(cp + "/shop/garment-detail.do?num="+cnum);
+	}
+	
 }

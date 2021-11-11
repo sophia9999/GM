@@ -55,11 +55,6 @@
 	margin: 0 auto;
 }
 
-.btn {
-	display: block;
-	margin: 0 600px;
-}
-
 .title {
 	text-align: center;
 }
@@ -95,46 +90,17 @@
     color: #fff;
     margin: 15px 300px;
 }
+
+.buttons {
+	width: 100%;
+	margin: 10px auto;
+}
+
+.btnTable {
+	width: 100%;
+}
 </style>
 <script type="text/javascript">
-function addDetail() {
-	var f = document.form;
-	var str;
-	
-	str = $("input[name=color]").val().trim();
-	if(! str) {
-		alert("색상을 입력하세요.");
-		f.color.focus();
-		return;
-	}
-	
-	str = $("input[name=size]").val().trim();
-	if(! str) {
-		alert("사이즈를 입력하세요.");
-		f.size.focus();
-		return;
-	}
-	
-	str = $("input[name=stock]").val().trim();
-	if(! str || str < 1) {
-		alert("수량을 입력하세요.");
-		f.size.focus();
-		return;
-	}
-	
-	if(! confirm("등록하시겠습니까 ? ")) {
-		return;
-	}
-	
-	
-	if(${mode=='write'}) {
-		f.action = "${pageContext.request.contextPath}/shop/garment-detailwrite.do";
-		f.submit();
-	} else if(${mode=='update'}) {
-		f.action = "${pageContext.request.contextPath}/shop/garment-detailupdateSubmit.do";
-		f.submit();	
-	}
-}
 </script>
 </head>
 <body>
@@ -154,92 +120,50 @@ function addDetail() {
 				</td>
 				<td align="right">&nbsp;</td>
 			</tr>
-		</table>
+	</table>
 	
 	<div>
 		<form name="formUpdate" method="post">
 			<table class="table table-border table-form table-list">
 				<tr>
-					<th><input type="checkbox" class="chkAll"></th>
 					<th>색상</th>
 					<th>사이즈</th>
 					<th>재고</th>
 				</tr>
-				<c:forEach var="colordto" items="${colorList}" varStatus="status">
+				<c:forEach var="colordto" items="${list}" varStatus="status">
 					<tr>
-						<td>
-							<input type="checkbox" class="chk" name="cdnum" value="${colordto.cdnum}">
-							<input type="hidden" class="ccnum" name="ccnum" value="${colordto.ccnum}">
-							<input type="hidden" class="cnum" name="cnum" value="${colordto.cnum}">
-						</td>
-						<td style="text-align: left;">${colordto.color}</td>
-						<td style="text-align: left;">${colordto.size}</td>
-						<td style="text-align: left;">${colordto.stock}</td>
+						<td style="background: #fff;">${colordto.color}</td>
+						<td>${colordto.size}</td>
+						<td>${colordto.stock}</td>
 					</tr>
 				</c:forEach>
 			</table>
-			<table class="table">
-				<tr>
-					<td>
-						<button type="button" class="btn btnUpdate" onclick="updateSubmit()">수정</button>
-					</td>
-				</tr>
-			</table>
+			<div class="buttons">
+				<table class="btnTable">
+					<tr>
+						<td>
+							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/shop/garment-colorwrite.do?cnum=${dto.cnum}';">색상관리</button>
+						</td>
+						<td>
+							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/shop/garment-sizewrite.do?cnum=${dto.cnum}';">사이즈관리</button>
+						</td>
+					</tr>
+				</table>
+			</div>
 			<div class="page-box">
-			${dataCount == 0 ? "등록된 색상이 없습니다." : paging}
+			${dataCount == 0 ? "등록된 색상/사이즈가 없습니다." : paging}
+			</div>
+			<div class="buttons">
+				<table class="btnTable">
+					<tr>
+						<td>
+							<button type="button" class="btn btnList" onclick="location.href='${pageContext.request.contextPath}/shop/garment.do';">리스트</button>
+						</td>
+					</tr>
+				</table>
 			</div>
 		</form>
 	</div>
-	
-	
-	<div class="title">
-		<h3><span>|</span> 색상/사이즈 ${mode=='update'?'수정':'추가'} </h3>
-	</div>
-	<form name="form" method="post">
-		<table class="table table-border table-form table-list table-detail">
-			<tr>
-				<th>의류명</th>
-				<td>
-					<input type="text" name="clothname" class="boxTF" maxlength="33" value="${dto.clothname}${vo.clothname}" 
-					readonly="readonly" style="background-color: #eee">
-					<input type="hidden" name="cnum" value="${dto.cnum}">
-					<input type="hidden" name="cdnum" value="${dto.cdnum}">
-					<input type="hidden" name="ccnum" value="${dto.ccnum}">
-				</td>
-			</tr>
-			<tr>
-				<th>색상</th>
-				<td style="text-align: left;">
-					<input type="text" name="color" class="boxTF box1" style="width: 150px;" value="${vo.color}">
-				</td>
-			</tr>
-			<tr>
-				<th>사이즈</th>
-				<td style="text-align: left;">
-					<input type="text" class="boxTF box1" id="box1" name="size" style="width: 150px;" value="${vo.size}">
-				</td>
-			</tr>
-			<tr>
-				<th>재고</th>
-				<td style="text-align: left;">
-					<input type="number" class="boxTF"  name="stock" style="width: 150px;" value="${vo.stock}">
-				</td>
-			</tr>
-		</table>
-		
-		<table class="table">
-				<tr> 
-					<td>
-						<button type="button" class="btn" onclick="addDetail()">${mode=='update'?'수정완료':'추가'}</button>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<button type="button" class="btn btnList" onclick="location.href='${pageContext.request.contextPath}/shop/garment-article.do?num=${dto.cnum}&page=${prePage}';">리스트</button>
-					</td>
-				</tr>
-		</table>
-	</form>
 </div>
 <script type="text/javascript">
 $(function () {
@@ -249,7 +173,7 @@ $(function () {
 	});
 });
 
-function updateSubmit() {
+function changeDetail() {
 	var f = document.formUpdate;
 	var $chk =  $("input[name=cdnum]:checked").length;
 	console.log($chk);

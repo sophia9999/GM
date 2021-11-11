@@ -491,15 +491,18 @@ public class ShopDAO {
 		return result;
 	}
 	
-	// 색상/사이즈관리에서 나오는 색상데이터
-	public int colorDataCount(int cnum) {
+	// 색상/사이즈관리에서 나오는 데이터
+	public int detailDataCount(int cnum) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql;
 		ResultSet rs = null;
 		
 		try {
-			sql = "SELECT COUNT(*) FROM color_detail WHERE cnum=?";
+			sql = "SELECT COUNT(*) FROM clothes c"
+					+ " LEFT OUTER JOIN color_detail cc ON c.cnum = cc.cnum "
+					+ " LEFT OUTER JOIN clothes_detail cd ON cc.ccnum = cd.ccnum "
+					+ " WHERE c.cnum = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, cnum);
@@ -529,6 +532,87 @@ public class ShopDAO {
 		return result;
 	}
 	
+	// 색상관리에서 현재 등록되어있는 색상
+	public int colorDataCount(int cnum) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql;
+		ResultSet rs = null;
+		
+		try {
+			sql = "SELECT COUNT(*) FROM color_detail"
+					+ " WHERE cnum = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cnum);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	// 색상관리에서 색상 수정버튼 눌렀을 때 밑에 폼에 나오게 하는 것
+	public ShopDTO colorUpdate(int ccnum) {
+		ShopDTO dto= null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT ccnum, color, cnum FROM color_detail WHERE ccnum = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ccnum);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new ShopDTO();
+				dto.setCcnum(rs.getInt("ccnum"));
+				dto.setColor(rs.getString("color"));
+				dto.setCnum(rs.getInt("cnum"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return dto;
+	}
+	
 	// 관리자 색상/사이즈 관리에서 사용하는 list
 	public List<ShopDTO> colorList(int start, int end, int cnum) {
 		List<ShopDTO> colorList = new ArrayList<ShopDTO>();
@@ -539,11 +623,12 @@ public class ShopDAO {
 		try {
 			sb.append("SELECT * FROM (");
 			sb.append("    SELECT ROWNUM rnum, tb.* FROM (");
-			sb.append("        SELECT c.ccnum, c.cnum, cdnum, color, sizes, stock FROM color_detail c");
-			sb.append("        JOIN clothes_detail cd ON c.ccnum = cd.ccnum");
-			sb.append("        WHERE cnum = ?");
-			sb.append("        ) tb WHERE ROWNUM <= ?");
-			sb.append("    ) WHERE rnum >= ?");
+			sb.append("        SELECT cc.ccnum, c.cnum, cdnum, color, sizes, stock FROM clothes c");
+			sb.append("        LEFT OUTER JOIN color_detail cc ON c.cnum = cc.cnum");
+			sb.append("        LEFT OUTER JOIN clothes_detail cd ON cc.ccnum = cd.ccnum");
+			sb.append("        WHERE c.cnum = ?");
+			sb.append("    ) tb WHERE ROWNUM <= ?");
+			sb.append(") WHERE rnum >= ?");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			
@@ -686,95 +771,34 @@ public class ShopDAO {
 		return sizeList;
 	}
 	
-	// 색상, 사이즈 테이블 삽입
-	public int insertDetail(ShopDTO dto) throws Exception {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql;
-		int seq;
-		
-		try {
-			// 색상테이블 seq 값 가져오기
-			sql = "SELECT color_SEQ.NEXTVAL FROM dual";
-			pstmt = conn.prepareStatement(sql);
-			
-			rs = pstmt.executeQuery();
-			
-			seq = 0;
-			if (rs.next()) {
-				seq = rs.getInt(1);
-			}
-			dto.setCcnum(seq);
-			
-			rs.close();
-			pstmt.close();
-			rs = null;
-			pstmt = null;
-			
-			// 색상 테이블에 색상 넣음
-			sql = "INSERT INTO color_detail(ccnum, cnum, color)"
-					+ " VALUES(?, ?, ?) ";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, dto.getCcnum());
-			pstmt.setInt(2, dto.getCnum());
-			pstmt.setString(3, dto.getColor());
-			
-			result = pstmt.executeUpdate();
-			
-			pstmt.close();
-			pstmt = null;
-			
-			// 의류디테일 테이블에 색상에 따른 사이즈 넣기
-			sql = "INSERT INTO clothes_detail(cdnum, ccnum, sizes, stock)"
-					+ " VALUES(clothes_detail_SEQ.NEXTVAL, ?, ?, ?) ";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, dto.getCcnum());
-			pstmt.setString(2, dto.getSize());
-			pstmt.setInt(3, dto.getStock());
-			
-			result = pstmt.executeUpdate();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (Exception e2) {
-				}
-			}
-		}
-		return result;
-	}
-	
-	public ShopDTO readColorSize(int cdnum) {
+	// 색상 관리에서 List
+	public List<ShopDTO> colorListForPage(int start, int end, int cnum) {
+		List<ShopDTO> list = new ArrayList<ShopDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
-		ShopDTO dto = null;
 		
 		try {
-			sb.append("SELECT cdnum, cc.ccnum, cc.cnum, sizes, stock, color, clothname ");
-			sb.append("		FROM clothes_detail cd");
-			sb.append("		JOIN color_detail cc ON cd.ccnum = cc.ccnum");
-			sb.append("		JOIN clothes c ON c.cnum = cc.cnum");
-			sb.append("		WHERE cdnum = ?");
-			
+			sb.append("SELECT * FROM (");
+			sb.append("    SELECT ROWNUM rnum, tb.* FROM (");
+			sb.append("        SELECT color, ccnum FROM color_detail");
+			sb.append("        WHERE cnum = ?");
+			sb.append("    ) tb WHERE ROWNUM <= ?");
+			sb.append(") WHERE rnum >= ?");
 			pstmt = conn.prepareStatement(sb.toString());
-			pstmt.setInt(1, cdnum);
+			
+			pstmt.setInt(1, cnum);
+			pstmt.setInt(2, end);
+			pstmt.setInt(3, start);
 			
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) {
-				dto = new ShopDTO();
-				dto.setCdnum(rs.getInt("cdnum"));
+			while(rs.next()) {
+				ShopDTO dto = new ShopDTO();
+				dto.setCnum(cnum);
 				dto.setCcnum(rs.getInt("ccnum"));
-				dto.setCnum(rs.getInt("cnum"));
-				dto.setSize(rs.getString("sizes"));
-				dto.setStock(rs.getInt("stock"));
 				dto.setColor(rs.getString("color"));
-				dto.setClothname(rs.getString("clothname"));
+				list.add(dto);
 			}
 			
 		} catch (Exception e) {
@@ -794,31 +818,199 @@ public class ShopDAO {
 				}
 			}
 		}
-		
-		return dto;
+		return list;
 	}
 	
-	public int updateColor(ShopDTO dto) {
+	// 색상 업데이트
+	public int updateColor(int ccnum, String color) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql;
 		
 		try {
-			sql = "UPDATE color_detail SET color=? WHERE ccnum = ? ";
+			sql = "UPDATE color_detail SET color = ? WHERE ccnum = ? ";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, dto.getColor());
-			pstmt.setInt(2, dto.getCcnum());
+			
+			pstmt.setString(1, color);
+			pstmt.setInt(2, ccnum);
 			
 			result = pstmt.executeUpdate();
 			
-			pstmt.close();
-			pstmt = null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return result;
+	}
+
+	// 색상 추가
+	public int inserColor(int cnum, String color) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "INSERT INTO color_detail (ccNum,cNum,color) "
+					+ "	VALUES (color_SEQ.NEXTVAL, ?, ?)";
 			
-			sql = "UPDATE clothes_detail SET sizes=?, stock=? WHERE cdnum = ? ";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, dto.getSize());
-			pstmt.setInt(2, dto.getStock());
-			pstmt.setInt(3, dto.getCdnum());
+			pstmt.setInt(1, cnum);
+			pstmt.setString(2, color);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return result;
+	}
+
+	// 사이즈 관리에서 컬러리스트
+	public List<ShopDTO> realColorList(int cnum) {
+		List<ShopDTO> realColorList = new ArrayList<ShopDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "";
+		ShopDTO dto = null;
+		
+		try {
+			sql = "SELECT color, cc.ccnum, c.cnum FROM clothes c "
+					+ " JOIN color_detail cc ON c.cnum = cc.cnum"
+					+ " WHERE c.cnum = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cnum);
+			rs = pstmt.executeQuery();
+			
+			while ( rs.next()) {
+				dto = new ShopDTO();
+				dto.setCcnum(rs.getInt("ccnum"));
+				dto.setCnum(rs.getInt("cnum"));
+				dto.setColor(rs.getString("color"));
+				realColorList.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return realColorList;
+	}
+
+	public int insertSize(int ccnum, String size, int stock) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		
+		try {
+			sql = "INSERT INTO clothes_detail (cdNum, ccNum, sizes, stock) "
+					+ "	VALUES (clothes_detail_SEQ.NEXTVAL, ?, ?, ?) ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ccnum);
+			pstmt.setString(2, size);
+			pstmt.setInt(3, stock);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		
+		return result;
+	}
+
+	// 사이즈관리에서 수정버튼 눌렀을 때 밑에 폼에 나오게 하는 것
+	public ShopDTO sizeUpdate(int cdnum) {
+		ShopDTO dto= null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT cdnum, sizes, stock, color FROM color_detail cc"
+					+ " JOIN clothes_detail cd ON cc.ccnum = cd.ccnum "
+					+ " WHERE cdnum = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cdnum);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new ShopDTO();
+				dto.setCdnum(rs.getInt("cdnum"));
+				dto.setSize(rs.getString("sizes"));
+				dto.setStock(rs.getInt("stock"));
+				dto.setColor(rs.getString("color"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return dto;
+	}
+
+	// 사이즈관리에서 수정완료
+	public int updateSize(int cdnum, String size, int stock) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql ;
+		
+		try {
+			sql = "UPDATE clothes_detail SET sizes = ?, stock = ? WHERE cdnum = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, size);
+			pstmt.setInt(2, stock);
+			pstmt.setInt(3, cdnum);
 			
 			result = pstmt.executeUpdate();
 			
