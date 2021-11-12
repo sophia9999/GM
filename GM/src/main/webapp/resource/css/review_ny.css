@@ -1,0 +1,114 @@
+@charset "UTF-8";
+
+.reply {
+	align-items: left;
+	text-align: left;
+	width : 900px;
+	font-size : 14px;
+	font-family: 맑은고딕;
+	color: #A6A6A6;
+	justify-content: left;
+	
+	margin: 50px auto 70px;
+	border-radius: 10px;
+ 	display: grid;
+ 	grid-template:repeat(4, auto) / repeat(3, auto);
+ 	gap:15px;
+}
+.table-article tr > td {
+	padding-left: 5px; padding-right: 5px;
+}
+
+.reply {
+	clear: both; padding: 20px 0 10px;
+}
+.reply .bold {
+	font-weight: 600;
+}
+
+.reply .form-header {
+	padding-bottom: 7px;
+}
+.reply-form  td {
+	padding: 2px 0 2px;
+}
+.reply-form textarea {
+	width: 800px; height: 75px;
+}
+.reply .reply-info {
+	padding-top: 25px; padding-bottom: 7px;
+}
+.reply .reply-info  .reply-count {
+	color: #3EA9CD; font-weight: 700;
+}
+
+.reply .reply-list tr td {
+	padding: 7px 5px;
+}
+.reply .reply-list .bold {
+	font-weight: 600;
+}
+
+.reply .deleteReply, .reply .deleteReplyAnswer {
+	cursor: pointer;
+}
+.reply .notifyReply {
+	cursor: pointer;
+}
+
+.reply-list .list-header {
+	border: 1px solid #ccc; background: #eee;
+}
+.reply-list td {
+	padding-left: 7px; padding-right: 7px;
+}
+
+.reply-answer {
+	display: none;
+}
+.reply-answer .answer-left {
+	float: left; width: 5%;
+}
+.reply-answer .answer-right {
+	float: left; width: 95%;
+}
+.reply-answer .answer-list {
+	border-top: 1px solid #ccc; padding: 0 10px 7px;
+}
+.reply-answer .answer-form {
+	clear: both; padding: 3px 10px 5px;
+}
+.reply-answer .answer-form textarea {
+	width: 100%; height: 75px;
+}
+.reply-answer .answer-footer {
+	clear: both; padding: 0 13px 10px 10px; text-align: right;
+}
+
+.answer-article {
+	clear: both;
+}
+.answer-article .answer-article-header {
+	clear: both; padding-top: 5px;
+}
+.answer-article .answer-article-body {
+	clear:both; padding: 5px 5px; border-bottom: 1px solid #ccc;
+}
+.btn {
+	color: #333;
+	border: 1px solid #333;
+	background-color: #fff;
+	padding: 4px 10px;
+	font-weight: 300;
+	cursor:pointer;
+	font-size: 14px;
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+	vertical-align: baseline;
+	margin : 15px 5px;
+	margin-top: 10px;
+}
+.btn:hover, .btn:active, .btn:focus {
+	background-color: #e6e6e6;
+	border-color: #adadad;
+	color:#333;
+}
