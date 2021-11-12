@@ -120,7 +120,7 @@ public class MemberDAO {
 			
 			
 			conn.commit();
-			
+			conn.setAutoCommit(true);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -129,7 +129,7 @@ public class MemberDAO {
 				
 			if(pstmt != null) {
 				try {
-					conn.setAutoCommit(true);
+					
 					pstmt.close();
 				} catch (SQLException e) {
 				}
@@ -243,13 +243,45 @@ public class MemberDAO {
 			pstmt.setString(7, dto.getUserId());
 			
 			result += pstmt.executeUpdate();
+			conn.setAutoCommit(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(pstmt !=null) {
+				try {
+					
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		
+		
+		return result;
+	}
+	
+	public int deleteMember(String userId)throws SQLException {
+		int result = 0;
+		PreparedStatement pstmt =null;
+		String sql="";
+		
+		try {
+			
+			
+			
+			sql ="UPDATE member SET login = 0  WHERE userId= ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			
+			result = pstmt.executeUpdate();
+			
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
 			if(pstmt !=null) {
 				try {
-					conn.setAutoCommit(true);
 					pstmt.close();
 				} catch (Exception e2) {
 				}
