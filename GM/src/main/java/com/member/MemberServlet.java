@@ -145,7 +145,7 @@ public class MemberServlet extends MyServlet {
 			dto.setAddress_detail(req.getParameter("addr2"));
 			
 			new MemberDAO().insertMember(dto);
-			String msg = "🎉🎉🎉🎉회원가입을 축하드립니다🎉🎉🎉🎉";
+			String msg = "🎉🎉🎉회원가입을 축하드립니다🎉🎉🎉";
 			msg = URLDecoder.decode(msg, "utf-8");
 			req.setAttribute("msg", msg);
 			

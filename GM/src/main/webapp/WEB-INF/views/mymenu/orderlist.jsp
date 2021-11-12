@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>GM: 주문내역리스트</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/tablestyle_ih.css" type="text/css">
@@ -83,7 +83,7 @@ function searchList() {
 					<td class="left">
 						<a href="${articleUrl}&odNum=${dto.odNum}">${dto.clothName}</a>
 					</td>
-					<td>${dto.state}</td>
+					<td>${empty dto.state ? "배송전":dto.state }</td>
 					<td>${dto.order_date}</td>
 					<td>${dto.arrivedate}</td>
 				</tr>

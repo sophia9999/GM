@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>GM: 주문내역</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 
@@ -90,22 +90,22 @@
 				<tr>
 					<td>배송현황</td>
 					<td class="left" >
-						${dto.state }		
+						${empty dto.state? "배송전" : dto.state }		
 					</td>
 				</tr>
 				<tr>
 					<td>배송예정일</td>
 					<td class="left" >
-						${dto.arrivedate }	
+						${empty dto.arrivedate ? "배송전" : dto.state }	
 					</td>
 				</tr>
 			<!-- 관리자일시 배송 현황과 예정일을 뺴고 이부분을 쓰시면될것같아요 -->
 				<tr>
 					<td>
-						 운송번호입력
+						 운송번호
 					</td>
 					<td align="left" >
-						${dto.dNum} 
+						${ dto.deNum == 0 ? "배송전" : dto.deNum} 
 					</td>
 					
 				</tr>
@@ -114,12 +114,12 @@
 		<button type="button" class="btn" style="float:left" onclick="javascript:location.href='${pageContext.request.contextPath}/mymenu/myorder.do${query}'">뒤로</button>
 	
 		<c:choose>
-			<c:when test="${dto.state=='배달도착'}">
-				<button type="button" class="btn" style="float:right">리뷰작성</button>
+			<c:when test="${dto.state=='배달완료'&&empty dto.rNum}">
+				<button type="button" class="btn" style="float:right" onclick="location.href='${pageContext.request.contextPath}/review/write.do?odNum=${dto.odNum}&cdNum=${dto.cdnum}';" >리뷰작성</button>
 			</c:when>
 	
-			<c:when test="${dto.state !='배달도착' }">
-				<button type="button" class="btn" style="float:right" onclick="javascript:location.href='${pageContext.request.contextPath}/mymenu/myorder_update.do${query}&odNum=${dto.odNum}'" >배송 수정 및 주문취소</button>
+			<c:when test="${empty dto.state}">
+				<button type="button" class="btn" style="float:right" onclick="javascript:location.href='${pageContext.request.contextPath}/mymenu/myorder_update.do${query}&odNum=${dto.odNum}'" >배송지 수정 및 주문취소</button>
 			</c:when>			
 		<%-- 	<c:when test="${empty dto.state}">
 				<button type="button" class="btn" style="float:right" onclick="javascript:location.href='${pageContext.request.contextPath}/mymenu/myorder.do${query}&dto=${dto}'" >배송 수정 및 주문취소</button>

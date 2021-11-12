@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>GM: 로그인</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/styleny.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/style_hg.css" type="text/css">
@@ -64,18 +64,16 @@ function sendLogin() {
 					<input class="div-input" name="userId" placeholder="이메일 주소">
 				</div>
 				<div class="div-text">
-					<input class="div-input" name="userPwd"  placeholder="비밀번호">
+					<input class="div-input" type="password" name="userPwd"  placeholder="비밀번호">
 				</div>
 				<div class="pad-15tb">
 					
-					<span>
-						<a href="#" class="login-a">비밀번호를 잊으셨나요?</a>
-					</span>
+					
 				</div>
 				<button type="button" class="login-butt login" onclick="sendLogin();" >로그인</button>
 				<div class="footer">GarmentMarket에 처음이세요?
 						<span style="padding-left: 15px;">
-							<a href="#" class="login-a">회원가입하기</a>
+							<a href="${pageContext.request.contextPath}/member/join.do" class="login-a">회원가입하기</a>
 					</span>
 				</div>				
 				</form>

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>GM: 완료</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/style_ny.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/style_hg.css" type="text/css">

@@ -4,7 +4,7 @@ public class MyorderDTO {
 	String userId;
 	int oNum;
 	int odNum;
-	int dNum;
+	int deNum;
 	String order_date;
 	int total_price;
 	int bPrice;
@@ -24,6 +24,8 @@ public class MyorderDTO {
 	int cdnum;
 	int cqty;
 	int listNum;
+	int discount;
+	int rNum;
 	
 	
 	
@@ -153,17 +155,29 @@ public class MyorderDTO {
 	public void setOdNum(int odNum) {
 		this.odNum = odNum;
 	}
-	public int getdNum() {
-		return dNum;
+	public int getDeNum() {
+		return deNum;
 	}
-	public void setdNum(int dNum) {
-		this.dNum = dNum;
+	public void setDeNum(int deNum) {
+		this.deNum = deNum;
 	}
 	public String getFileName() {
 		return fileName;
 	}
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	public int getDiscount() {
+		return discount;
+	}
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
+	public int getrNum() {
+		return rNum;
+	}
+	public void setrNum(int rNum) {
+		this.rNum = rNum;
 	}
 	
 	

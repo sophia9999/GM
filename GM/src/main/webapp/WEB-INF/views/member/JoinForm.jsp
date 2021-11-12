@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>GM: 회원가입및 정보 수정</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/joinForm_ih.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/styleny.css" type="text/css">

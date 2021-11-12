@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>GM: 주문변경 및 취소</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 

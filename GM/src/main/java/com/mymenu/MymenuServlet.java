@@ -103,7 +103,7 @@ public class MymenuServlet extends MyServlet{
 				dataCount = dao.datacount(userId, condition, keyword);
 			}
 			
-			int rows = 2;
+			int rows = 5;
 			int total_page = util.pageCount(rows, dataCount);
 			if(c_page>total_page) {
 				c_page = total_page;
@@ -197,7 +197,7 @@ public class MymenuServlet extends MyServlet{
 				resp.sendRedirect(cp+ "/mymenu/myorder.do");
 			}
 			
-			String price = df.format(dto.getPrice());
+			String price = df.format(dto.getPrice()-dto.getDiscount());
 			req.setAttribute("price", price);
 			req.setAttribute("query", query);
 			req.setAttribute("dto", dto);

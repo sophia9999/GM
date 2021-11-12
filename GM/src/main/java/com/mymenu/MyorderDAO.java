@@ -63,7 +63,7 @@ public class MyorderDAO {
 			sql = "SELECT NVL(COUNT(*), 0) "
 					+ " FROM orderDelivery o "
 					+" 	JOIN orderDetail d ON o.oNum = d.oNum "
-			        +"  JOIN shipping sh ON sh.onum = o.onum "     
+			        +"  LEFT OUTER  JOIN shipping sh ON sh.odnum = d.odnum"     
 			        +"	JOIN clothes_detail cd ON cd.cdnum = d.cdnum "
 			        +"  JOIN color_detail cld ON cd.ccnum = cld.ccnum "
 			        +"  JOIN clothes cl ON cl.cnum = cld.cnum "
@@ -123,7 +123,7 @@ public class MyorderDAO {
 			sb.append("             d.cdNum,d.cQty,clothname,price,dCode,cComent,TO_CHAR(sendDate, 'YYYY-MM-DD') sendDate,TO_CHAR(arriveDate, 'YYYY-MM-DD') arriveDate,state , d.odNum");
 			sb.append("         FROM orderDelivery o ");
 			sb.append("         JOIN orderDetail d ON o.oNum = d.oNum AND o.userid = ?");
-			sb.append("         JOIN shipping sh ON sh.onum = o.onum");
+			sb.append("         LEFT OUTER  JOIN shipping sh ON sh.odnum = d.odnum");
 			sb.append("         JOIN dLocation dl ON dl.onum = o.onum");
 			sb.append("         JOIN clothes_detail cd ON cd.cdnum = d.cdnum");
 			sb.append("         JOIN color_detail cld ON cd.ccnum = cld.ccnum");
@@ -198,7 +198,7 @@ public class MyorderDAO {
 			sb.append("             d.cdNum,d.cQty,clothname,price,dCode,cComent,TO_CHAR(sendDate, 'YYYY-MM-DD') sendDate,TO_CHAR(arriveDate, 'YYYY-MM-DD') arriveDate,state , d.odNum");
 			sb.append("         FROM orderDelivery o ");
 			sb.append("         JOIN orderDetail d ON o.oNum = d.oNum AND o.userid = ?");
-			sb.append("          JOIN shipping sh ON sh.onum = o.onum");
+			sb.append("         LEFT OUTER  JOIN shipping sh ON sh.odnum = d.odnum");
 			sb.append("         JOIN dLocation dl ON dl.onum = o.onum");
 			sb.append("         JOIN clothes_detail cd ON cd.cdnum = d.cdnum");
 			sb.append("         JOIN color_detail cld ON cd.ccnum = cld.ccnum");
@@ -286,11 +286,12 @@ public class MyorderDAO {
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append(" SELECT o.oNum, userId, TO_CHAR(order_date, 'YYYY-MM-DD') order_date , total_price,dprice,phonenum, d.odNum,dAddress_detail,dAddress,recipient,recPhoneNum,dNum, fileName,");
-			sb.append("    d.cdNum,d.cQty,clothname,price,cComent,dCode,TO_CHAR(sendDate, 'YYYY-MM-DD') sendDate,TO_CHAR(arriveDate, 'YYYY-MM-DD') arriveDate,state");
+			sb.append(" SELECT o.oNum, o.userId, TO_CHAR(order_date, 'YYYY-MM-DD') order_date , total_price,dprice,phonenum, d.odNum,dAddress_detail,dAddress,recipient,recPhoneNum,deNum,rnum, fileName,");
+			sb.append("    d.cdNum,d.cQty,clothname,price,cComent,dCode,TO_CHAR(sendDate, 'YYYY-MM-DD') sendDate,TO_CHAR(arriveDate, 'YYYY-MM-DD') arriveDate,state,discount");
 			sb.append("         FROM orderDelivery o ");
 			sb.append("         JOIN orderDetail d ON o.oNum = d.oNum ");
-			sb.append("          JOIN shipping sh ON sh.onum = o.onum");
+			sb.append("         LEFT OUTER  JOIN review re ON re.odnum = d.odnum");
+			sb.append("         LEFT OUTER  JOIN shipping sh ON sh.odnum = d.odnum");
 			sb.append("          JOIN dLocation dl ON dl.onum = o.onum");
 			sb.append("         JOIN clothes_detail cd ON cd.cdnum = d.cdnum");
 			sb.append("         JOIN color_detail cld ON cd.ccnum = cld.ccnum");
@@ -324,10 +325,11 @@ public class MyorderDAO {
 				dto.setdAddress_detail(rs.getString("dAddress_detail"));
 				dto.setRecipient(rs.getString("recipient"));
 				dto.setRecPhoneNum(rs.getString("recPhoneNum"));
-				dto.setdNum(rs.getInt("dNum"));
+				dto.setDeNum(rs.getInt("deNum"));
 				dto.setFileName(rs.getString("fileName"));
 				dto.setdCode(rs.getInt("dCode"));
-			
+				dto.setDiscount(rs.getInt("discount"));
+				dto.setrNum(rs.getInt("rnum"));
 			}
 			
 			
