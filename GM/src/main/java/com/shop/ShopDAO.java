@@ -411,7 +411,7 @@ public class ShopDAO {
 		return list;
 	}
 	
-	public int deletePhotoFile(String mode, int cnum) throws SQLException {
+	public int deletePhotoFile(String mode, int cnum, int fileNum) throws SQLException {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql;
@@ -423,7 +423,11 @@ public class ShopDAO {
 				sql = "DELETE FROM clothes_file WHERE fileNum = ?";
 			}
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, cnum);
+			if (mode.equals("all")) {
+				pstmt.setInt(1, cnum);
+			} else {
+				pstmt.setInt(1, fileNum);
+			}
 
 			result = pstmt.executeUpdate();
 
@@ -468,12 +472,12 @@ public class ShopDAO {
 			pstmt = null;
 			
 			if (dto.getImageFiles() != null) {
-				sql = "UPDATE clothes_file SET filenum =clothes_file_SEQ.NEXTVAL, filename=? "
-						+ " WHERE cnum=?";	
+				sql = "INSERT INTO clothes_file(fileNum, cnum, filename) VALUES "
+						+ " (CLOTHES_FILE_SEQ.nextval, ?, ?)";	
 				pstmt = conn.prepareStatement(sql);
 				for (int i = 0; i < dto.getImageFiles().length; i++) {
-					pstmt.setString(1, dto.getImageFiles()[i]);
-					pstmt.setInt(2, dto.getCnum());
+					pstmt.setInt(1, dto.getCnum());
+					pstmt.setString(2, dto.getImageFiles()[i]);
 					result = pstmt.executeUpdate();
 				}
 			}
@@ -1010,6 +1014,36 @@ public class ShopDAO {
 			
 			pstmt.setString(1, size);
 			pstmt.setInt(2, stock);
+			pstmt.setInt(3, cdnum);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	public int addCart(int cdnum, int amount, String userId) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "INSERT INTO cart (cart_num, amount, userId, cart_date, cdNum) "
+					+ " VALUES (cart_SEQ.NEXTVAL, ?, ?, SYSDATE, ?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, amount);
+			pstmt.setString(2, userId);
 			pstmt.setInt(3, cdnum);
 			
 			result = pstmt.executeUpdate();

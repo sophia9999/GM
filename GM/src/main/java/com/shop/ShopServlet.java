@@ -75,6 +75,8 @@ public class ShopServlet extends MyUploadServlet{
 			sizeWriteSubmit(req, resp);
 		} else if (uri.indexOf("garment-sizeupdateSubmit.do") != -1) {
 			sizeUpdateSubmit(req, resp);
+		} else if (uri.indexOf("addcart.do") != -1) {
+			addCart(req, resp);
 		}
 		
 	}
@@ -88,9 +90,9 @@ public class ShopServlet extends MyUploadServlet{
 		
 		HttpSession session = req.getSession();
 		SessionInfo info= (SessionInfo)session.getAttribute("member");
+		String page = "1";
 		
 		try {
-			String page = "1";
 			page = req.getParameter("page");
 			int current_page = 1;
 			if(page != null) {
@@ -347,7 +349,7 @@ public class ShopServlet extends MyUploadServlet{
 		
 		String cp = req.getContextPath();
 		if (req.getMethod().equalsIgnoreCase("GET")) {
-			resp.sendRedirect(cp + "/sphoto/list.do");
+			resp.sendRedirect(cp + "/shop/garment.do");
 			return;
 		}
 		HttpSession session = req.getSession();
@@ -437,7 +439,7 @@ public class ShopServlet extends MyUploadServlet{
 			for(ShopDTO vo : listFile) {
 				if(vo.getFileNum() == fileNum) {
 					FileManager.doFiledelete(pathname, vo.getImageFilename());
-					dao.deletePhotoFile("one", fileNum);
+					dao.deletePhotoFile("one", cnum, fileNum);
 					listFile.remove(vo);
 					break;
 				}
@@ -448,7 +450,7 @@ public class ShopServlet extends MyUploadServlet{
 
 			req.setAttribute("mode", "update");
 			
-			forward(req, resp, "WEB-INF/views/shop/writeForm.jsp");
+			forward(req, resp, "/WEB-INF/views/shop/writeForm.jsp");
 			return;
 			
 		} catch (Exception e) {
@@ -792,4 +794,38 @@ public class ShopServlet extends MyUploadServlet{
 		resp.sendRedirect(cp + "/shop/garment-detail.do?num="+cnum);
 	}
 	
+	protected void addCart(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ShopDAO dao = new ShopDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info= (SessionInfo)session.getAttribute("member");
+		
+		session.setAttribute("member", info);
+		
+		String cp = req.getContextPath();
+		int page = Integer.parseInt(req.getParameter("page"));
+		int cnum = Integer.parseInt(req.getParameter("num"));
+		
+		try {
+			if ( info == null ) {
+				resp.sendRedirect(cp + "/member/login.do");
+				return;
+			}
+			
+			int amount = Integer.parseInt(req.getParameter("amount"));
+			String userId = info.getUserId();
+			int cdnum = Integer.parseInt(req.getParameter("cdnum"));
+			
+			dao.addCart(cdnum, amount, userId);
+			
+			req.setAttribute("page", page);
+			req.setAttribute("num", cnum);
+			req.setAttribute("cart", "sendOk");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp + "/shop/garment-article.do?page=" + page + "&num=" + cnum);
+	}
 }

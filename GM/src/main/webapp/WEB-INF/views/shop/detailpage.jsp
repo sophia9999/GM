@@ -86,6 +86,7 @@ function imageViewer(img) {
 		modal: true
 	});
 }
+
 </script>
 </head>
 <body>
@@ -100,23 +101,23 @@ function imageViewer(img) {
 			
 		<form name="form" method="post">
 			<select class="selectbox" id="colorBox">
-				<option>::컬러::</option>
+				<option value="">::컬러::</option>
 				<c:forEach var="dto" items="${colorList}" varStatus="status">
 					<option value="${dto.ccnum}">${dto.color}</option>
 				</c:forEach>
 			</select>
-			<select class="selectbox" id="sizeBox">
+			<select class="selectbox" id="sizeBox" name="cdnum">
 				<option>::사이즈::</option>
 			</select><br>
-			<input type="text" class="amount" name="amount" value="1" onchange="change()">
-			<input type="button" value=" + " onclick="add();">
-			<input type="button" value=" - " onclick="del();"><br>
+				<input type="text" class="amount" name="amount" value="1" onchange="change()">
+				<input type="button" value=" + " onclick="add();">
+				<input type="button" value=" - " onclick="del();"><br>
 			
 			<div class = "total">
 			Total<br>
-			<input id="totalPrice" type="text" name="sum" size="11" readonly="readonly" value="${dto.price}">￦<br><br>
-			<input class="btn" id="buyBtn" type="submit" value = "Buy Now">
-			<input class="btn" id="toCartBtn" type="submit"  value = "Add To Cart">
+				<input id="totalPrice" type="text" name="sum" size="11" readonly="readonly" value="${dto.price}">￦<br><br>
+				<input class="btn" id="buyBtn" type="text" value = "Buy Now" >
+				<input class="btn" id="toCartBtn" type="text"  value = "Add To Cart">
 			</div>
 			
 			<div class="detail-add">
@@ -144,7 +145,7 @@ function imageViewer(img) {
 </main>
 		<div>
 			<c:if test="${sessionScope.member.userId=='admin'}">
-				<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/shop/garment-update.do?num=${dto.cnum}';">수정</button>
+				<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/shop/garment-update.do?num=${dto.cnum}&page=${page}';">수정</button>
 			</c:if>
 			<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/shop/garment.do?page=${page}';">목록</button>
 		</div>
@@ -211,6 +212,27 @@ $(function() {
 	});
 });
 
+
+$(function() {
+	var f = document.form;
+	$("body").on("click", "#toCartBtn", function() {
+		
+		if(! $("#colorBox option:selected").val() ){
+			alert("컬러를 선택하세요.");
+			return;
+		}
+		
+		if(! $("#sizeBox option:selected").val() ){
+			alert("사이즈를 선택하세요.");
+			return;
+		}
+		
+		f.action = "${pageContext.request.contextPath}/shop/addcart.do?page=${page}&num=${dto.cnum}";
+		f.submit();
+		alert("장바구니에 추가되었습니다.");
+	});
+	
+});
 
 </script>
 

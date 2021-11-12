@@ -97,7 +97,7 @@ function sendOk() {
 		return;
 	}
 	
-	if(! confirm("등록하시겠습니까 ? ")) {
+	if(! confirm("${mode=='update'?'수정':'등록'}하시겠습니까 ? ")) {
 		return;
 	}
 	
@@ -227,7 +227,7 @@ function deleteFile(fileNum) {
 					<td>
 						<div class="img-box">
 							<c:forEach var="vo" items="${listFile}">
-									<img src="${pageContext.request.contextPath}/uploads/sphoto/${vo.imageFilename}"
+									<img src="${pageContext.request.contextPath}/uploads/photo/${vo.imageFilename}"
 										onclick="deleteFile('${vo.fileNum}');">
 							</c:forEach>
 						</div>

@@ -18,7 +18,7 @@ function imgclick() {
 </head>
 <body>
 <header>
-    <jsp:include page="../layout/header.jsp"></jsp:include>
+    <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </header>
 
 <main>
@@ -28,7 +28,7 @@ function imgclick() {
 </main>
 
 <footer>
-	<jsp:include page="../layout/footer.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </footer>
 </body>
 </html>

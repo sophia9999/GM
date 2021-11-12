@@ -139,7 +139,7 @@ function updateSize() {
 					<c:otherwise>
 						<td style="text-align: left;">
 							<select id="selectBox" style="width: 96%" class="boxTF" name="ccnum">
-								<option>:: 사이즈 ${mode == 'update'?'수정':'추가'}할 색상선택</option>
+								<option value="">:: 사이즈 ${mode == 'update'?'수정':'추가'}할 색상선택</option>
 								<c:forEach varStatus="status" var="dto1" items="${realColorList}">
 									<option value="${dto1.ccnum}">${dto1.color}</option>
 								</c:forEach>
@@ -189,14 +189,14 @@ function updateSize() {
 function addSize() {
 	var f = document.form;
 
-	/*
-	if(${mode}=='write') {
+	
+	if( '${mode}'=='write') {
 		if(! $("#selectBox option:selected").val() ) {
 			alert("색상을 선택하세요");
 			return;
-		} // 이거 안돼는데 왜그런지 모르겠음 ㅠㅠ		
+		} 
 	}
-	*/
+	
 	
 	if(! $("input[name=size]").val().trim() ) {
 		alert("사이즈를 입력하세요.");
