@@ -50,6 +50,8 @@ public class ReviewServlet extends MyServlet {
 			review(req, resp);
 		} else if (uri.indexOf("myreviewlist.do") != -1) {
 			myreviewlist(req, resp);
+		} else if (uri.indexOf("delete.do") != -1) {
+			delete(req, resp);
 		}
 	}
 	
@@ -130,6 +132,9 @@ public class ReviewServlet extends MyServlet {
 		String color = dto.getColor();       // 가져오기 
 		String sizes = dto.getSizes();
 		String userId = dto.getUserId();
+		String userName = dto.getUserName();
+		String r_reg_date = dto.getR_reg_date();
+		int listNum = dto.getListNum();
 		
 		req.setAttribute("mode", "write");
 		req.setAttribute("odNum", odNum);    //writeForm에 보내기 
@@ -137,6 +142,9 @@ public class ReviewServlet extends MyServlet {
 		req.setAttribute("color", color);
 		req.setAttribute("sizes", sizes);
 		req.setAttribute("userId", userId);
+		req.setAttribute("userName", userName);
+		req.setAttribute("r_reg_date", r_reg_date);
+		req.setAttribute("listNum", listNum);
 		
 		forward(req, resp, "/WEB-INF/views/review/writeForm.jsp");
 	}
@@ -165,7 +173,10 @@ public class ReviewServlet extends MyServlet {
 			dto.setSubject(req.getParameter("subject"));
 			dto.setContent(req.getParameter("content"));
 			dto.setUserId("userId");
-	
+			dto.setUserName("userName");
+			dto.setR_reg_date("r_reg_date");
+			dto.setListNum(Integer.parseInt(req.getParameter("listNum")));
+			
 			dao.insertReview(dto);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -307,6 +318,6 @@ public class ReviewServlet extends MyServlet {
 			e.printStackTrace();
 		}
 
-		resp.sendRedirect(cp + "/review/reviewlist.do?" + query);
+		resp.sendRedirect(cp + "/review/review-list.do?" + query);
 	}
 }

@@ -57,6 +57,13 @@ function ajaxFun(url, method, query, dataType, fn) {
 		}
 	});
 }
+function deleteReview() {
+    if(confirm("해당 리뷰를 삭제하시겠습니까 ? ")) {
+	    var query = "${query}&rNum=${dto.rNum}";
+	    var url = "${pageContext.request.contextPath}/review/delete.do?" + query;
+    	location.href = url;
+    }
+}
 </script>
 </head>
 <body>
@@ -81,7 +88,7 @@ function ajaxFun(url, method, query, dataType, fn) {
 					<td colspan="2" align="center">${dto.allClothesName}</td>
 				</tr>
 				<tr>
-					<td align="left">&nbsp&nbsp리뷰 번호 : ${dto.rNum}</td>
+					<td align="left">&nbsp&nbsp리뷰 번호 : ${dto.listNum}</td>
 					<td align="right" style="text-align:right">작성자 : ${dto.userName} &nbsp&nbsp  작성일 : ${dto.r_reg_date}&nbsp&nbsp </td>
 				</tr>
 				<tr>

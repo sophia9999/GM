@@ -27,11 +27,7 @@ public class ReviewDAO {
 		try {
 			sql = "INSERT INTO review (rNum, userId, subject, content, odNum, r_reg_date) "
 					+ " VALUES (REVIEW_SEQ.NEXTVAL, ?, ?, ?, ?, SYSDATE)";
-			/*
-			 * sql += "INSERT INTO review (member) " + " SELECT userId FROM member " +
-			 * " WHERE userId = ? "; sql += "INSERT INTO review (odNum) " +
-			 * " SELECT odNum FROM orderDetail " + " WHERE odNum = ? ";
-			 */
+			
 			pstmt = conn.prepareStatement(sql);
 			
 			
@@ -165,7 +161,7 @@ public class ReviewDAO {
 				dto.setClothName(rs.getString("clothName"));
 				dto.setContent(rs.getString("content"));
 				dto.setOdNum(rs.getInt("odNum"));
-				dto.setOdNum(rs.getInt("oNum"));
+				dto.setoNum(rs.getInt("oNum"));
 				dto.setR_reg_date(rs.getString("r_reg_date"));
 				dto.setSizes(rs.getString("sizes"));
 				dto.setColor(rs.getString("color"));
