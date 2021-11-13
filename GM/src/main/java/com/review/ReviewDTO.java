@@ -4,6 +4,7 @@ public class ReviewDTO {
 	private int rNum;
 	private int listNum;
 	private String userId;
+	private String userName;
 	private String subject;
 	private String content;
 	private String r_reg_date;
@@ -16,7 +17,6 @@ public class ReviewDTO {
 	
 	private String allClothesName;
 	private String cdNum;
-	
 	public int getrNum() {
 		return rNum;
 	}
@@ -34,6 +34,12 @@ public class ReviewDTO {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getSubject() {
 		return subject;
@@ -95,4 +101,6 @@ public class ReviewDTO {
 	public void setCdNum(String cdNum) {
 		this.cdNum = cdNum;
 	}
+	
+	
 }

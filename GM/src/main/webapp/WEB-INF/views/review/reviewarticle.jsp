@@ -82,10 +82,10 @@ function ajaxFun(url, method, query, dataType, fn) {
 				</tr>
 				<tr>
 					<td align="left">&nbsp&nbsp리뷰 번호 : ${dto.rNum}</td>
-					<td align="right" style="text-align:right">작성자 : ${dto.userId} &nbsp&nbsp  작성일 : ${dto.r_reg_date}&nbsp&nbsp </td>
+					<td align="right" style="text-align:right">작성자 : ${dto.userName} &nbsp&nbsp  작성일 : ${dto.r_reg_date}&nbsp&nbsp </td>
 				</tr>
 				<tr>
-					<td colspan="2" align="left" height="200">${dto.content}</td>
+					<td colspan="2" align="left" height="200" valign="top">${dto.content}</td>
 				</tr>
 
 		</tbody>	
@@ -95,27 +95,37 @@ function ajaxFun(url, method, query, dataType, fn) {
 				<td width="50%">
 					<c:choose>
 						<c:when test="${sessionScope.member.userId==dto.userId}">
-							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/review/updateReview.do?rNum=${dto.rNum}&page=${page}';">수정</button>
+							<button type="button" class="btn" style="float:left" onclick="location.href='${pageContext.request.contextPath}/review/updateReview.do?rNum=${dto.rNum}&page=${page}';">수정</button>
 						</c:when>
 						<c:otherwise>
-							<button type="button" class="btn" disabled="disabled">수정</button>
+							<button type="button" class="btn" style="display:none">수정</button>
 						</c:otherwise>
 					</c:choose>
 			    	
 					<c:choose>
 			    		<c:when test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
-			    			<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/review/deleteReview.do?rNum=${dto.rNum}&page=${page}';">삭제</button>
+			    			<button type="button" class="btn" style="float:left" onclick="deleteReview();">삭제</button>
 			    		</c:when>
 			    		<c:otherwise>
-			    			<button type="button" class="btn" disabled="disabled">삭제</button>
+			    			<button type="button" class="btn"style="display:none">삭제</button>
 			    		</c:otherwise>
 			    	</c:choose>
-			    	<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/review/review-list.do';">리스트</button>
 				</td>
+				<td>
+			    	<button type="button" class="btn" style="float:right" onclick="location.href='${pageContext.request.contextPath}/review/review-list.do';">리스트</button>
+				
+				</td>
+				<!--  
+				<c:if test="${sessionScope.member.userId=='admin'}"> 
+				<td align="right">
+					<button type="button" style="display:none" class="btn" onclick="location.href='${pageContext.request.contextPath}/review/write.do?rNum=${dto.rNum}&page=${page}';">리뷰등록</button>
+				</td>
+				</c:if>
+				<c:if test="${sessionScope.member.userId==dto.userId}"> 
 				<td align="right">
 					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/review/write.do?rNum=${dto.rNum}&page=${page}';">리뷰등록</button>
-					
 				</td>
+				</c:if>  -->
 			</tr>
 		</table>			
 		<!--  

@@ -41,7 +41,7 @@
 	<form method="post">
 	<div class="title">
 		<h3 class="h3css"><span>|</span> REVIEW</h3>
-	<button style="float: right;" type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/review/myreviewlist.do';">리뷰가능제품</button>				
+		<!--  <button style="float: right;" type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/review/myreviewlist.do';">MY REVIEW</button>-->	
 	</div>
 				
  <!-- 
@@ -78,15 +78,14 @@
 				<tr>
 					<td>${dto.listNum}</td>
 					<td class="left">
-						<a href="${articleUrl}&rNum=${dto.rNum}" class="line-none">${dto.subject}</a>
+						<a href="${articleUrl}&rNum=${dto.rNum}" class="line-none">${dto.allClothesName}</a>
 					</td>
-					<td>${dto.userId}</td>
+					<td>${dto.userName}</td>
 					<td>${dto.r_reg_date}</td>	
 				</tr>
 			</c:forEach>
 		</tbody>	
 		</table>
-	    
 		<div class="pagingBox">  
 			${reviewCount == 0 ? "등록된 게시물이 없습니다." : paging}
 		</div>

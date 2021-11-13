@@ -34,10 +34,12 @@ body {
 	justify-content: center;
 }
 #topMenu ul li {
-	list-style: none;
-	float:left;
-	line-height : 100px;
-	text-align: center;
+    margin-top: 50px;
+    margin-bottom : 10px;
+    list-style: none;
+    float: left;
+    text-align: center;
+ 
 }
 .menuLink {
 	text-decoration: none;

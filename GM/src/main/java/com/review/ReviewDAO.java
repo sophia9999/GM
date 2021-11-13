@@ -138,9 +138,10 @@ public class ReviewDAO {
 		try {
 			sb.append(" SELECT * FROM ( ");
 			sb.append("     SELECT ROWNUM ronum, tb.* FROM ( ");
-			sb.append(" 		SELECT rNum, subject, c.clothName, content, r.odNum, od.oNum, cd.sizes, cc.color, ");
+			sb.append(" 		SELECT rNum, subject, userName, c.clothName, content, r.odNum, od.oNum, cd.sizes, cc.color, ");
 			sb.append("   			 TO_CHAR(r_reg_date, 'YYYY-MM-DD') r_reg_date ");
 			sb.append(" 		FROM review r ");
+			sb.append("         JOIN member m ON r.userId = m.userId ");
 			sb.append("         JOIN orderDetail od ON r.odNum = od.odNum ");
 			sb.append("         JOIN clothes_detail cd ON od.cdNum = cd.cdNum ");
 			sb.append("         JOIN color_detail cc ON cc.ccNum = cd.ccNum ");
@@ -159,6 +160,7 @@ public class ReviewDAO {
 				ReviewDTO dto = new ReviewDTO();
 
 				dto.setrNum(rs.getInt("rNum"));
+				dto.setUserName(rs.getString("userName"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setClothName(rs.getString("clothName"));
 				dto.setContent(rs.getString("content"));
@@ -200,8 +202,9 @@ public class ReviewDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT rNum, subject, content, o.odNum, r_reg_date, c.clothName, cc.color, cd.sizes, userId "
+			sql = "SELECT rNum, subject, content, o.odNum, r_reg_date, c.clothName, cc.color, cd.sizes, r.userId, userName "
 					+ " FROM review r "
+					+ " JOIN member m ON r.userId = m.userId "
 					+ " JOIN orderDetail o ON r.odNum=o.odNum "
 					+ " JOIN clothes_detail cd ON o.cdNum=cd.cdNum "
 					+ " JOIN color_detail cc ON cd.ccNum=cc.ccNum "
@@ -221,6 +224,7 @@ public class ReviewDAO {
 				dto.setSubject(rs.getString("subject"));
 				dto.setContent(rs.getString("content"));
 				dto.setUserId(rs.getString("userId"));
+				dto.setUserName(rs.getString("userName"));
 				dto.setOdNum(rs.getInt("odNum"));
 				dto.setR_reg_date(rs.getString("r_reg_date"));
 				dto.setSizes(rs.getString("sizes"));
@@ -368,4 +372,43 @@ public class ReviewDAO {
 
 			return dto;
 		}
+		
+		// 게시물 삭제
+		public int deleteReview(int rNum, String userId) throws SQLException {
+			int result = 0;
+			PreparedStatement pstmt = null;
+			String sql;
+
+			try {
+				if (userId.equals("admin")) {
+					sql = "DELETE FROM review WHERE rNum=?";
+					pstmt = conn.prepareStatement(sql);
+					
+					pstmt.setInt(1, rNum);
+					
+					result = pstmt.executeUpdate();
+				} else {
+					sql = "DELETE FROM review WHERE rNum=? AND userId=?";
+					
+					pstmt = conn.prepareStatement(sql);
+					
+					pstmt.setInt(1, rNum);
+					pstmt.setString(2, userId);
+					
+					result = pstmt.executeUpdate();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			} finally {
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException e) {
+					}
+				}
+			}
+			return result;
+		}
+
 }

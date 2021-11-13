@@ -5,7 +5,8 @@ package com.review;
  * 리뷰상세
  */
 import java.io.IOException;
-
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,7 +14,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 
 import com.member.SessionInfo;
 import com.util.MyServlet;
@@ -129,13 +129,14 @@ public class ReviewServlet extends MyServlet {
 		String clothName = dto.getClothName();
 		String color = dto.getColor();       // 가져오기 
 		String sizes = dto.getSizes();
-		
+		String userId = dto.getUserId();
 		
 		req.setAttribute("mode", "write");
 		req.setAttribute("odNum", odNum);    //writeForm에 보내기 
 		req.setAttribute("clothName", clothName);
 		req.setAttribute("color", color);
 		req.setAttribute("sizes", sizes);
+		req.setAttribute("userId", userId);
 		
 		forward(req, resp, "/WEB-INF/views/review/writeForm.jsp");
 	}
@@ -163,7 +164,8 @@ public class ReviewServlet extends MyServlet {
 			dto.setOdNum(Integer.parseInt(req.getParameter("odNum")));
 			dto.setSubject(req.getParameter("subject"));
 			dto.setContent(req.getParameter("content"));
-
+			dto.setUserId("userId");
+	
 			dao.insertReview(dto);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -240,7 +242,7 @@ public class ReviewServlet extends MyServlet {
 			
 			
 			//전체 페이지 수 
-			int rows = 2;
+			int rows = 5;
 			int total_page = util.pageCount(rows, reviewCount);
 			if (current_page > total_page) {
 				current_page = total_page;
@@ -283,5 +285,28 @@ public class ReviewServlet extends MyServlet {
 		// JSP로 포워딩
 		forward(req, resp, "/WEB-INF/views/review/myreviewlist.jsp");
 		
+	}
+	
+	private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 게시물 삭제
+		ReviewDAO dao = new ReviewDAO();
+
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		String cp = req.getContextPath();
+		
+		String page = req.getParameter("page");
+		String query = "page=" + page;
+
+		try {
+			int rNum = Integer.parseInt(req.getParameter("rNum"));
+			
+			dao.deleteReview(rNum, info.getUserId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		resp.sendRedirect(cp + "/review/reviewlist.do?" + query);
 	}
 }

@@ -9,10 +9,60 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resource/jquery/css/jquery-ui.min.css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/jquery/js/jquery-ui.min.js"></script>
+<style>
 
+.subMenu { 
+	padding-top : 10px;
+	position : absolute;
+	display: none;
+    width: 150px;
+    font-size: 12px;
+}
+#topMenu li {
+	display : block;
+}
+#topMenu li ul {
+	margin-top : 10px;
+	display:none;
+	position:absolute;
+	width : 150px;
+	z-index : 100;
+	height : 50px;
+}
+#topMenu li:hover ul{
+	display:block;
+	height : 50px;
+}
+#topMenu li li {
+	display:block;
+	margin:0;
+	padding:0;
+	width:80px;
+	color: gray;
+}
+#topMenu li ul a{
+	display:block;
+	font-size:12px;
+	top : 0;
+	margin:0;
+	padding:0;
+	text-align:center;
+	color: black;
+}
+#topMenu ul li {
+	height : 30px;
+	padding-bottom:0;
+	margin-bottom:0;
+}
+#topMenu ul li ul {
+	margin:0;
+	padding:0;
+}
+
+</style>
 <a id="logo" href="${pageContext.request.contextPath}/main.do">Garment Market</a>
 	<nav id="topMenu">
-		<ul>
+		<ul class="mainMenu">
 			<c:choose>
 				<c:when test="${sessionScope.member.userId=='admin'}">
 					<li><a class="menuLink" href="${pageContext.request.contextPath}/shop/garment.do">SHOP / 상품관리</a></li>
@@ -24,14 +74,19 @@
 				</c:when>
 				<c:otherwise>
 					<li><a class="menuLink" href="${pageContext.request.contextPath}/shop/garment.do">SHOP</a></li>
+					<li><a class="menuLink" href="${pageContext.request.contextPath}/review/review-list.do">REVIEW</a></li>
 					<li><a class="menuLink" href="#">Q/A</a></li>
 					<c:if test="${empty sessionScope.member }">
 						<li><a class="menuLink" href="${pageContext.request.contextPath}/member/login.do">LOGIN</a></li>
 						<li><a class="menuLink" href="${pageContext.request.contextPath}/member/join.do">JOIN US</a></li>	
 					</c:if>
 					<c:if test="${not empty sessionScope.member }">
-						<li><a class="menuLink" href="${pageContext.request.contextPath}/review/review-list.do">리뷰관리</a></li>
-						<li><a class="menuLink" href="${pageContext.request.contextPath}/review/myreviewlist.do">리뷰관s리</a></li>
+						<li><a class="menuLink" href="${pageContext.request.contextPath}/review/review-list.do">REVIEW</a>
+							<ul>
+								<li><a href="${pageContext.request.contextPath}/review/review-list.do">ALL</a></li>
+								<li><a href="${pageContext.request.contextPath}/review/myreviewlist.do">MY REVIEW</a></li>
+							</ul>
+						</li>
 						<li><a class="menuLink" href="${pageContext.request.contextPath}/mymenu/myorder.do">MY PAGE</a></li>
 						<li><a class="menuLink" href="#"> <span style="color:black;">${sessionScope.member.userName}</span>님</a></li>
 						<li><a class="menuLink" href="${pageContext.request.contextPath}/member/logout.do">LOGOUT</a></li>
