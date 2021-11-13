@@ -109,6 +109,12 @@ function deleteOrder(){
 					</p>
 				</td>
 			</tr>
+			<tr>
+			<td>요청사항</td>
+				<td>
+					<input type="text"  name="request"  maxlength="10"   class="boxTF" value="${dto.request}"  style="width: 96%;">
+				</td>
+			</tr>
 				
 				
 		</tbody>	

@@ -279,7 +279,7 @@ public class MymenuServlet extends MyServlet{
 			dto.setdCode(Integer.parseInt(req.getParameter("dCode")));
 			dto.setRecPhoneNum(req.getParameter("recPhoneNum"));			
 			dto.setoNum(Integer.parseInt(req.getParameter("oNum")));
-			
+			dto.setRequest(req.getParameter("request"));
 			new MyorderDAO().updatedLocation(dto);
 			
 			resp.sendRedirect(cp+ "/mymenu/myorder.do");

@@ -1,31 +1,32 @@
 package com.mymenu;
 
 public class MyorderDTO {
-	String userId;
-	int oNum;
-	int odNum;
-	int deNum;
-	String order_date;
-	int total_price;
-	int bPrice;
-	String phoneNum;
-	String state;
-	int dCode;
-	String dAddress_detail;
-	String dAddress;
-	String recipient;
-	String recPhoneNum;
-	String clothName;
-	String fileName;
-	int price;
-	String ccoment;
-	String senddate;
-	String arrivedate;
-	int cdnum;
-	int cqty;
-	int listNum;
-	int discount;
-	int rNum;
+	private String userId;
+	private int oNum;
+	private int odNum;
+	private int deNum;
+	private String order_date;
+	private int total_price;
+	private int bPrice;
+	private String phoneNum;
+	private String state;
+	private int dCode;
+	private String dAddress_detail;
+	private String dAddress;
+	private String recipient;
+	private String recPhoneNum;
+	private String clothName;
+	private String fileName;
+	private int price;
+	private String ccoment;
+	private String senddate;
+	private String arrivedate;
+	private int cdnum;
+	private int cqty;
+	private int listNum;
+	private int discount;
+	private int rNum;
+	private String request;
 	
 	
 	
@@ -178,6 +179,12 @@ public class MyorderDTO {
 	}
 	public void setrNum(int rNum) {
 		this.rNum = rNum;
+	}
+	public String getRequest() {
+		return request;
+	}
+	public void setRequest(String request) {
+		this.request = request;
 	}
 	
 	

@@ -109,12 +109,22 @@
 					</td>
 					
 				</tr>
+				<tr>
+					<td>
+						 요청사항
+					</td>
+					<td align="left" >
+						${ empty dto.request ? "" : dto.request} 
+					</td>
+					
+				</tr>
 		</tbody>	
 		</table>
 		<button type="button" class="btn" style="float:left" onclick="javascript:location.href='${pageContext.request.contextPath}/mymenu/myorder.do${query}'">뒤로</button>
 	
 		<c:choose>
-			<c:when test="${dto.state=='배달완료'&&empty dto.rNum}">
+			<c:when test="${dto.state=='배달완료'&&dto.rNum==0}">
+				
 				<button type="button" class="btn" style="float:right" onclick="location.href='${pageContext.request.contextPath}/review/write.do?odNum=${dto.odNum}&cdNum=${dto.cdnum}';" >리뷰작성</button>
 			</c:when>
 	

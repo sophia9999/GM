@@ -287,7 +287,7 @@ public class MyorderDAO {
 		
 		try {
 			sb.append(" SELECT o.oNum, o.userId, TO_CHAR(order_date, 'YYYY-MM-DD') order_date , total_price,dprice,phonenum, d.odNum,dAddress_detail,dAddress,recipient,recPhoneNum,deNum,rnum, fileName,");
-			sb.append("    d.cdNum,d.cQty,clothname,price,cComent,dCode,TO_CHAR(sendDate, 'YYYY-MM-DD') sendDate,TO_CHAR(arriveDate, 'YYYY-MM-DD') arriveDate,state,discount");
+			sb.append("    d.cdNum,d.cQty,clothname,price,cComent,dCode,TO_CHAR(sendDate, 'YYYY-MM-DD') sendDate,TO_CHAR(arriveDate, 'YYYY-MM-DD') arriveDate,state,discount,o.request");
 			sb.append("         FROM orderDelivery o ");
 			sb.append("         JOIN orderDetail d ON o.oNum = d.oNum ");
 			sb.append("         LEFT OUTER  JOIN review re ON re.odnum = d.odnum");
@@ -330,7 +330,7 @@ public class MyorderDAO {
 				dto.setdCode(rs.getInt("dCode"));
 				dto.setDiscount(rs.getInt("discount"));
 				dto.setrNum(rs.getInt("rnum"));
-			}
+				dto.setRequest(rs.getString("request"));		}
 			
 			
 		} catch (Exception e) {
@@ -360,6 +360,7 @@ public class MyorderDAO {
 		PreparedStatement pstmt = null;
 		StringBuilder sb = new StringBuilder();
 		try {
+				conn.setAutoCommit(false);
 				sb.append("UPDATE dLocation SET dAddress_detail=?, dCode=?, dAddress=?, ");
 				sb.append("recipient = ?, recPhoneNum=? ");
 				sb.append(" WHERE oNum=?");
@@ -374,12 +375,26 @@ public class MyorderDAO {
 				pstmt.setInt(6, dto.getoNum());
 			
 				result = pstmt.executeUpdate();
+				pstmt.close();
+				pstmt = null;
+				
+				
+				String sql = "UPDATE orderDelivery SET request=?  WHERE oNum=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, dto.getRequest());
+				System.out.println(dto.getoNum());
+				pstmt.setInt(2,dto.getoNum());
+				
+				result += pstmt.executeUpdate();
+				
+				
 				
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
 			if(pstmt!=null) {
 				try {
+					conn.setAutoCommit(true);
 					pstmt.close();
 				} catch (Exception e2) {
 				}
