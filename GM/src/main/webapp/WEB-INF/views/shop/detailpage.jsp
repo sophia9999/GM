@@ -212,6 +212,23 @@ $(function() {
 	});
 });
 
+$(function(){
+	var f = document.form;
+	$("body").on("click", "#buyBtn", function() {
+		if(! $("#colorBox option:selected").val() ){
+			alert("컬러를 선택하세요.");
+			return;
+		}
+		
+		if(! $("#sizeBox option:selected").val() ){
+			alert("사이즈를 선택하세요.");
+			return;
+		}
+		
+		f.action = "${pageContext.request.contextPath}/cart/buyNow.do";
+		f.submit();
+	});
+});
 
 $(function() {
 	var f = document.form;

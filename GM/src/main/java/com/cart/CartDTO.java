@@ -2,6 +2,7 @@ package com.cart;
 
 public class CartDTO {
 	private int cartNum;
+	private String orderNum;
 	private int clothDetailNum;
 	private String userId;
 	private String fileName;
@@ -12,7 +13,35 @@ public class CartDTO {
 	private String cart_date;
 	private String size;
 	private String color;
-
+	private String request;
+	private int total;
+	private int fee;
+	private String tel;
+	
+	public String getTel() {
+		return tel;
+	}
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+	public int getFee() {
+		return fee;
+	}
+	public void setFee(int fee) {
+		this.fee = fee;
+	}
+	public int getTotal() {
+		return total;
+	}
+	public void setTotal(int total) {
+		this.total = total;
+	}
+	public String getOrderNum() {
+		return orderNum;
+	}
+	public void setOrderNum(String string) {
+		this.orderNum = string;
+	}
 	public String getSize() {
 		return size;
 	}
@@ -78,6 +107,11 @@ public class CartDTO {
 	}
 	public void setCart_date(String cart_date) {
 		this.cart_date = cart_date;
+	}	
+	public String getRequest() {
+		return request;
 	}
-	
+	public void setRequest(String request) {
+		this.request = request;
+	}
 }

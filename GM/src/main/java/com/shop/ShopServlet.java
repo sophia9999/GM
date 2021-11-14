@@ -828,4 +828,5 @@ public class ShopServlet extends MyUploadServlet{
 		
 		resp.sendRedirect(cp + "/shop/garment-article.do?page=" + page + "&num=" + cnum);
 	}
+	
 }
