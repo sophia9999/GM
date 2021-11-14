@@ -29,7 +29,7 @@ public class ReviewServlet extends MyServlet {
 		req.setCharacterEncoding("utf-8");
 		
 		String uri = req.getRequestURI();
-		
+		/*
 		// 세션 정보
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
@@ -38,7 +38,7 @@ public class ReviewServlet extends MyServlet {
 			forward(req, resp, "/WEB-INF/views/member/login.jsp");
 			return;
 		}
-		
+		*/
 		// uri에 따른 작업 구분
 		if (uri.indexOf("review-list.do") != -1) {
 			list(req, resp);	//list(req, resp);
@@ -191,7 +191,7 @@ public class ReviewServlet extends MyServlet {
 		MyUtil util = new MyUtil();
 		
 		String cp = req.getContextPath();
-	
+		/*
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
@@ -199,7 +199,7 @@ public class ReviewServlet extends MyServlet {
 			forward(req, resp, "/WEB-INF/views/member/login.jsp");
 			return;
 		}
-	
+		*/
 		int page = Integer.parseInt(req.getParameter("page"));
 		String query = "page=" + page;
 
