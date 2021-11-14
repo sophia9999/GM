@@ -95,7 +95,15 @@ function imageViewer(img) {
 	<div class= "orderbox">
 		<p class="orderbox_info">
 			<span class="itemName">${dto.clothname}</span><br>
-			<span class="itemPrice">${price}</span><br>
+			<span class="itemPrice">
+			<c:if test="${dto.discount!=0}">
+				<fmt:formatNumber value="${dto.price}" pattern="#,###"></fmt:formatNumber>￦ →
+				<fmt:formatNumber value="${dto.price-dto.discount}" pattern="#,###"></fmt:formatNumber>￦
+			</c:if>
+				<c:if test="${dto.discount==0}">
+				<fmt:formatNumber value="${dto.price}" pattern="#,###"></fmt:formatNumber>￦
+			</c:if>
+			</span><br>
 			<br>배송비 ￦2,500<br>(￦70,000 이상 구매 시 무료)<br>	
 		</p>
 			
@@ -115,7 +123,7 @@ function imageViewer(img) {
 			
 			<div class = "total">
 			Total<br>
-				<input id="totalPrice" type="text" name="sum" size="11" readonly="readonly" value="${dto.price}">￦<br><br>
+				<input id="totalPrice" type="text" name="sum" size="11" readonly="readonly" value="${price}">￦<br><br>
 				<input class="btn" id="buyBtn" type="text" value = "Buy Now" >
 				<input class="btn" id="toCartBtn" type="text"  value = "Add To Cart">
 			</div>
@@ -167,7 +175,7 @@ function add() {
 	}
 	var qty = amount.value;
 	var sum = document.form.sum;
-	sum.value = ${dto.price} * qty;
+	sum.value = ${price} * qty;
 }
 function change() {
 	var amount = document.form.amount;
@@ -179,7 +187,7 @@ function change() {
 	}
 	var qty = amount.value;
 	var sum = document.form.sum;
-	sum.value = ${dto.price} * qty;
+	sum.value = ${price} * qty;
 }
 	
 function del() {
@@ -189,7 +197,7 @@ function del() {
 	}
 	var qty = amount.value;
 	var sum = document.form.sum;
-	sum.value = ${dto.price} * qty;
+	sum.value = ${price} * qty;
 }
 
 $(function() {

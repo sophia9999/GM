@@ -58,6 +58,7 @@
 	border-color: #adadad;
 	color:#333;
 }
+
 </style>
 </head>
 <body>
@@ -88,7 +89,17 @@
 				onclick="location.href='${articleUrl}&num=${dto.cnum}';">
 				<img alt="&nbsp;" src="${pageContext.request.contextPath}/uploads/photo/${dto.imageFilename}" 
 					style="width: 100%; height: 100%;">
-				<p>${dto.clothname}<br><fmt:formatNumber value="${dto.price}" pattern="#,###"></fmt:formatNumber></p>
+				<p>${dto.clothname}<p>
+				<br>
+				<p style="margin-top: 340px;">
+					<c:if test="${dto.discount!=0}">
+						<fmt:formatNumber value="${dto.price}" pattern="#,###"></fmt:formatNumber>￦ →
+						<fmt:formatNumber value="${dto.price-dto.discount}" pattern="#,###"></fmt:formatNumber>￦
+					</c:if>
+					<c:if test="${dto.discount==0}">
+						<fmt:formatNumber value="${dto.price}" pattern="#,###"></fmt:formatNumber>￦
+					</c:if>
+				</p>
 			</div>
 		</c:forEach>
 	</div>
