@@ -5,8 +5,6 @@ package com.review;
  * 리뷰상세
  */
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -29,16 +27,7 @@ public class ReviewServlet extends MyServlet {
 		req.setCharacterEncoding("utf-8");
 		
 		String uri = req.getRequestURI();
-		/*
-		// 세션 정보
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-
-		if (info == null) {
-			forward(req, resp, "/WEB-INF/views/member/login.jsp");
-			return;
-		}
-		*/
+		
 		// uri에 따른 작업 구분
 		if (uri.indexOf("review-list.do") != -1) {
 			list(req, resp);	//list(req, resp);
@@ -134,7 +123,6 @@ public class ReviewServlet extends MyServlet {
 		String userId = dto.getUserId();
 		String userName = dto.getUserName();
 		String r_reg_date = dto.getR_reg_date();
-		int listNum = dto.getListNum();
 		
 		req.setAttribute("mode", "write");
 		req.setAttribute("odNum", odNum);    //writeForm에 보내기 
@@ -144,7 +132,6 @@ public class ReviewServlet extends MyServlet {
 		req.setAttribute("userId", userId);
 		req.setAttribute("userName", userName);
 		req.setAttribute("r_reg_date", r_reg_date);
-		req.setAttribute("listNum", listNum);
 		
 		forward(req, resp, "/WEB-INF/views/review/writeForm.jsp");
 	}
@@ -172,11 +159,6 @@ public class ReviewServlet extends MyServlet {
 			dto.setOdNum(Integer.parseInt(req.getParameter("odNum")));
 			dto.setSubject(req.getParameter("subject"));
 			dto.setContent(req.getParameter("content"));
-			dto.setUserId("userId");
-			dto.setUserName("userName");
-			dto.setR_reg_date("r_reg_date");
-			dto.setListNum(Integer.parseInt(req.getParameter("listNum")));
-			
 			dao.insertReview(dto);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -191,15 +173,7 @@ public class ReviewServlet extends MyServlet {
 		MyUtil util = new MyUtil();
 		
 		String cp = req.getContextPath();
-		/*
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
-		if (info == null) {
-			forward(req, resp, "/WEB-INF/views/member/login.jsp");
-			return;
-		}
-		*/
 		int page = Integer.parseInt(req.getParameter("page"));
 		String query = "page=" + page;
 
