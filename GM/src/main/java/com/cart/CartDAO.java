@@ -606,9 +606,9 @@ public class CartDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT SUM(amount*price) FROM (SELECT cart_num,userId, fileName, clothName, amount, price, discount, cart_date, sizes, color\r\n"
-				+ "FROM clothes c, color_detail cd, clothes_detail cld, cart, clothes_file cf\r\n"
-					+ "WHERE c.cNum = cf.cNUm AND c.cNum = cd.cNum AND cd.ccNum = cld.ccNum AND cld.cdNum = cart.cdNum)\r\n"
+			sql = "SELECT SUM(amount*price) FROM (SELECT cart_num,userId, clothName, amount, price, discount, cart_date, sizes, color\r\n"
+				+ "FROM clothes c, color_detail cd, clothes_detail cld, cart\r\n"
+					+ "WHERE c.cNum = cd.cNum AND cd.ccNum = cld.ccNum AND cld.cdNum = cart.cdNum)\r\n"
 				+ "WHERE cart_num IN (";
 			
 			for(int i = 0; i < box.length; i++) {

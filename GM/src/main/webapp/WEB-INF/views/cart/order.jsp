@@ -193,7 +193,7 @@
 	</table>
 	</form>
 	<button type="button" class="btn" id="btnPay" style="float:center; height:60px; width: 300px; font-size: 18px;" 
-				onclick="requestPay()">${total_price + fee}원 결제하기</button>
+				onclick="requestPay()">${total_price + fee - disCount}원 결제하기</button>
 	</div>
 	
 	<footer>
