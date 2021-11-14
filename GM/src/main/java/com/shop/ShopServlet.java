@@ -259,15 +259,14 @@ public class ShopServlet extends MyUploadServlet{
 			List<ShopDTO> listFile = dao.listPhotoFile(num);
 			List<ShopDTO> colorList = dao.colorList(num);
 			
+			int price = dto.getPrice() - dto.getDiscount();
+			
 			req.setAttribute("dto", dto);
 			req.setAttribute("listFile", listFile);
 			req.setAttribute("page", page);
 			req.setAttribute("prePage", prePage);
 			req.setAttribute("colorList", colorList);
-			
-			NumberFormat nf = NumberFormat.getCurrencyInstance();
-			
-			req.setAttribute("price", nf.format(dto.getPrice()));
+			req.setAttribute("price", price);
 			
 			forward(req, resp, "/WEB-INF/views/shop/detailpage.jsp");
 			return;

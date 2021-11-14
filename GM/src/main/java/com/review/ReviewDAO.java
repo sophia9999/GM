@@ -287,7 +287,7 @@ public class ReviewDAO {
 					dto.setClothName(rs.getString("clothName"));
 					dto.setContent(rs.getString("content"));
 					dto.setOdNum(rs.getInt("odNum"));
-					dto.setOdNum(rs.getInt("oNum"));
+					dto.setoNum(rs.getInt("oNum"));
 					dto.setR_reg_date(rs.getString("r_reg_date"));
 					dto.setSizes(rs.getString("sizes"));
 					dto.setColor(rs.getString("color"));//베이직 라운드 퀼팅 패딩 [color:white] [size:M]${dto.clothName}&nbsp[color:${dto.color}]&nbsp[size:${dto.sizes}]
