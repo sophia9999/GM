@@ -53,17 +53,14 @@
 			
 		
 		<tbody>
-			
+				<tr>
+					<td>주문번호</td>
+					<td class="left">${dto.oNum}
+					</td>
+				</tr>
 				<tr>
 					<td>제품</td>
-					<td class="left in-flex" >
-						
-							<img class="img-width" src="${pageContext.request.contextPath}/resource/images/1.jpg">						
-						
-						<div>[ more information ] 아카이브 제이투유 사이트는 오직 결제를 위한 플랫폼입니다. 
-						제품의 상세페이지는 블로그를 통하여 확인하실 수 있습니다.
-						 아래 이미지를 클릭하시면 제품 상세페이지로 이동합니다.
-						 </div>
+					<td class="left">${dto.clothName}
 					</td>
 				</tr>
 				<tr>

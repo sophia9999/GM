@@ -98,7 +98,7 @@ function sendOk() {
 					</td>
 					<td align="right" style="padding-right: 5px">
 						<button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
-						<input type="text" name="odNum" value="${odNum}">
+						<input type="hidden" name="odNum" value="${odNum}">
 						<c:if test="${mode=='update'}">
 							<input type="hidden" name="rNum" value="${dto.rNum}">
 							<input type="hidden" name="page" value="${page}">
