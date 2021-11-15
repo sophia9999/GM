@@ -92,8 +92,8 @@
 						<li><a class="menuLink" href="${pageContext.request.contextPath}/mymenu/myorder.do">MY PAGE</a>
 							<ul>
 								<li><a class="menuLink" href="${pageContext.request.contextPath}/mymenu/myorder.do">주문내역</a></li>
-								<li><a class="menuLink" href="${pageContext.request.contextPath}/member/update.do">정보수정</a></li>
 								<li><a class="menuLink" href="${pageContext.request.contextPath}/cart/cart.do">CART</a></li>
+								<li><a class="menuLink" href="${pageContext.request.contextPath}/member/update.do">정보수정</a></li>
 							</ul>
 						</li>
 						<li><a class="menuLink" href="#"> <span style="color:black;">${sessionScope.member.userName}</span>님</a></li>
