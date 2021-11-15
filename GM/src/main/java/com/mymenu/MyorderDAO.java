@@ -124,7 +124,7 @@ public class MyorderDAO {
 			sb.append("         FROM orderDelivery o ");
 			sb.append("         JOIN orderDetail d ON o.oNum = d.oNum AND o.userid = ?");
 			sb.append("         LEFT OUTER  JOIN shipping sh ON sh.odnum = d.odnum");
-			sb.append("         JOIN dLocation dl ON dl.onum = o.onum");
+			sb.append("         LEFT OUTER JOIN dLocation dl ON dl.onum = o.onum");
 			sb.append("         JOIN clothes_detail cd ON cd.cdnum = d.cdnum");
 			sb.append("         JOIN color_detail cld ON cd.ccnum = cld.ccnum");
 			sb.append("         JOIN clothes cl ON cl.cnum = cld.cnum");
@@ -292,7 +292,7 @@ public class MyorderDAO {
 			sb.append("         JOIN orderDetail d ON o.oNum = d.oNum ");
 			sb.append("         LEFT OUTER  JOIN review re ON re.odnum = d.odnum");
 			sb.append("         LEFT OUTER  JOIN shipping sh ON sh.odnum = d.odnum");
-			sb.append("          JOIN dLocation dl ON dl.onum = o.onum");
+			sb.append("         LEFT OUTER JOIN dLocation dl ON dl.onum = o.onum");
 			sb.append("         JOIN clothes_detail cd ON cd.cdnum = d.cdnum");
 			sb.append("         JOIN color_detail cld ON cd.ccnum = cld.ccnum");
 			sb.append("         JOIN clothes cl ON cl.cnum = cld.cnum");
