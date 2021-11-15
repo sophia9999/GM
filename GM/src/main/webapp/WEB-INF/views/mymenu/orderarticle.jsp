@@ -128,7 +128,7 @@
 				<button type="button" class="btn" style="float:right" onclick="location.href='${pageContext.request.contextPath}/review/write.do?odNum=${dto.odNum}&cdNum=${dto.cdnum}';" >리뷰작성</button>
 			</c:when>
 	
-			<c:when test="${empty dto.state}">
+			<c:when test="${dto.state=='준비중'}">
 				<button type="button" class="btn" style="float:right" onclick="javascript:location.href='${pageContext.request.contextPath}/mymenu/myorder_update.do${query}&odNum=${dto.odNum}'" >배송지 수정 및 주문취소</button>
 			</c:when>			
 		<%-- 	<c:when test="${empty dto.state}">
