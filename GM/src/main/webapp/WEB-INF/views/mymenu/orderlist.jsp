@@ -83,7 +83,7 @@ function searchList() {
 					<td class="left">
 						<a href="${articleUrl}&odNum=${dto.odNum}">${dto.clothName}</a>
 					</td>
-					<td>${empty dto.state ? "배송전":dto.state }</td>
+					<td>${dto.state }</td>
 					<td>${dto.order_date}</td>
 					<td>${dto.arrivedate}</td>
 				</tr>
