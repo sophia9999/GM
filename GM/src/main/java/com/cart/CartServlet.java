@@ -250,6 +250,7 @@ public class CartServlet extends MyServlet{
 			for(int i=0; i < cdNum.length; i++) {
 				dao.insertOrderDetail(cdNum[i], amount[i]);
 				dao.insertShipping(req.getParameter("request"));
+				dao.updateStock(cdNum[i], amount[i]);
 			}
 						
 			String[] nn = req.getParameterValues("cartNum");

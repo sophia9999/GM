@@ -740,5 +740,33 @@ public class CartDAO {
 		}
 		
 		return result;
-	}		
+	}	
+	
+	public int updateStock(String cdNum, String amount) throws SQLException {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE clothes_detail SET stock = stock - ? WHERE cdNum = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, amount);
+			pstmt.setString(2, cdNum);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}		
+		return result;
+	}
 }
