@@ -10,7 +10,9 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 
-<link rel="stylesheet" href="/WEB-INF/views/resource/css/tablestyle_ih.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/tablestyle_ih.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/styleny.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/style_hg.css" type="text/css">
 
 
 <style type="text/css">
@@ -35,7 +37,7 @@
 </head>
 <body>
 <header>
-	<jsp:include page="${pageContext.request.contextPath}/layout/header.jsp"></jsp:include>
+		<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </header>
 
 <div class="container">
@@ -67,66 +69,55 @@
 				<tr>
 					<td>가격</td>
 					<td class="left">
-						39,800원
+						${dto.price }						
 					</td>
 				</tr>
 				<tr>
 					<td>수취인</td>
 					<td class="left">
-						홍홍홍
+						${dto.recipient }
 					</td>
 				</tr>
 				<tr>
 					<td>연락처</td>
 					<td class="left">
-						010-1234-1234
+						${dto.recPhoneNum }
 					</td>
 				</tr>
 				<tr>
 					<td>배송지</td>
 					<td class="left">
-						서울특별시 영등포구 버드나루로5길 투프레이즈오피스텔 (12312)
+						${dto.daddress_detail }
 					</td>
 				</tr>
 				<tr>
 					<td>배송현황</td>
 					<td class="left" >
-						배송중
+						${dto.state }
 					</td>
 				</tr>
 				<tr>
 					<td>배송예정일</td>
 					<td class="left" >
-						2021-11-05
+						${dto.arriveDate }
 					</td>
 				</tr>
-			<!-- 관리자일시 배송 현황과 예정일을 뺴고 이부분을 쓰시면될것같아요 -->
 				<tr>
 					<td>
 						 운송번호입력
 					</td>
 					<td align="left" >
-						<input placeholder="운송장번호입력" name="dNum">
+						${dto.deNum }
 					</td>
 					
 				</tr>
 		</tbody>	
 		</table>
-		<button type="button" class="btn" style="float:left">뒤로</button>
-		<button type="button" class="btn" style="float:right">수정</button>
+		<button type="button" class="btn" style="float:left" onclick="location.href='${pageContext.request.contextPath}/order/order.do';">뒤로</button>
+		<button type="button" class="btn" style="float:right" 
+			onclick="location.href='${pageContext.request.contextPath}/order/delevely.do?odNum=${dto.odNum}&clothName=${clothName}';">${empty dto.deNum ? "배송처리" : "배송수정" } </button>
 					
-		<!--  
-			<table class="table">
-				
-				<tr>
-					
-					<td align="right" >
-						<button type="button" class="btn" >수정</button>
-						<button type="button" class="btn" >뒤로</button>
-					</td>
-					
-				</tr>
-			</table>	-->
+
 		
 		
 					
