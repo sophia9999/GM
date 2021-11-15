@@ -24,19 +24,17 @@
 </header>
 <div class="wrap  maincenter">
 	<div class="login-box">
-			<a class="loginlogo">GarmentMarket </a>
-				<h2>결제가 성공적으로 완료되었습니다.</h2>
-				<p>저희 쇼핑몰을 이용해주셔서 감사합니다</p>
+		<a class="loginlogo">GarmentMarket </a>
+			<h2>결제가 성공적으로 완료되었습니다.</h2>
+			<p>저희 쇼핑몰을 이용해주셔서 감사합니다</p>
 		<div class="btn-box">
-                      <button class="btn" type="button" style="border: none;" onclick="location.href='${pageContext.request.contextPath}/';" class="btnConfirm">HOME</button>
-   		  </div>
+			<button class="btn" type="button" style="border: none;" onclick="location.href='${pageContext.request.contextPath}/';" class="btnConfirm">HOME</button>
+   	  	</div>
 	</div>
-	 
 </div>
 
 <footer>
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
-
 </footer>
 </body>
 </html>

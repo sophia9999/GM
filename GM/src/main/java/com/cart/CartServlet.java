@@ -232,17 +232,26 @@ public class CartServlet extends MyServlet{
 			dto.setRequest(req.getParameter("request"));
 			dto.setTel(req.getParameter("tel1")+"-"+req.getParameter("tel2")+"-"+req.getParameter("tel3"));
 			dto.setCartNum(Integer.parseInt(req.getParameter("cartNum")));
-			
+					
 			dao.insertOrder(dto);
 			
 			String[] cdNum = req.getParameterValues("cdNum");
 			String[] amount = req.getParameterValues("amount");
 			
+			MemberDTO mdto = new MemberDTO();
+			mdto.setCode(Integer.parseInt(req.getParameter("zip")));
+			mdto.setAddress(req.getParameter("addr1"));
+			mdto.setAddress_detail(req.getParameter("addr2"));
+			mdto.setUserName(req.getParameter("userName"));
+			mdto.setTel(req.getParameter("tel1")+"-"+req.getParameter("tel2")+"-"+req.getParameter("tel3"));
+			
+			dao.insertLocation(mdto);
 			
 			for(int i=0; i < cdNum.length; i++) {
 				dao.insertOrderDetail(cdNum[i], amount[i]);
+				dao.insertShipping(req.getParameter("request"));
 			}
-			
+						
 			String[] nn = req.getParameterValues("cartNum");
 			int box[] = null;
 			box = new int[nn.length];

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.member.MemberDTO;
 import com.util.DBConn;
 
 public class CartDAO {
@@ -677,4 +678,67 @@ public class CartDAO {
 		}		
 		return result;
 	}
+	
+	// 장바구니 추가
+	public int insertLocation(MemberDTO dto) throws SQLException {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "INSERT INTO dlocation (oNum,dAddress_detail, dCode, dAddress, recipient, recPhoneNum)\r\n"
+				+ "VALUES (ORDER_SEQ.CURRVAL, ?, ?, ?, ?, ?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getAddress_detail());
+			pstmt.setInt(2, dto.getCode());
+			pstmt.setString(3, dto.getAddress());
+			pstmt.setString(4, dto.getUserName());
+			pstmt.setString(5, dto.getTel());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+				throw e;
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+		}
+		
+		return result;
+	}		
+	
+	public int insertShipping(String request) throws SQLException {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "INSERT INTO shipping (deNum,odNum, state, sendDate, arriveDate, request)\r\n"
+					+ "VALUES (SHIPPING_SEQ.NEXTVAL, orderDetail_SEQ.CURRVAL, '준비중', SYSDATE, SYSDATE+3, ?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, request);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+				throw e;
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+		}
+		
+		return result;
+	}		
 }
