@@ -1,6 +1,6 @@
 # What is GM? (Garment Marekt) / GM이란?
 개인사업자를 위한 의류 쇼핑몰 / website for individual garment business
-
+간단하게 의류 쇼핑몰을 제작해보면서 개발경험을 쌓고 쇼핑몰을 만드는 데 필요한 역량을 길러보는 세미프로젝트 Our team made shopping websites to enhance abilities for shopping web programming and to experience cooperative development.
 
 # Development Environment / 개발환경
 - JDK 8 Update 291
