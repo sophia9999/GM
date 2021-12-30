@@ -15,6 +15,19 @@ GM은 간단하게 의류 쇼핑몰을 제작해보면서 개발경험을 쌓고
 이 프로젝트에서 요구사항수집, 데이터모델링, 레이아웃 만들기는 팀원과 함께 진행했습니다.
 In this project, My team proceeded with requirement gathering, database modeling and making layouts.
 
-홍인혜 : 제가 혼자 맡아서 진행한 부분은 Shop 패키지입니다. 상품리스트, 상품상세페이지, 상품등록, 관리자 상품관리 등을 진행했습니다.
+## 홍인혜  
+제가 혼자 맡아서 진행한 부분은 Shop 패키지입니다. 상품리스트, 상품상세페이지, 상품등록, 관리자 상품관리 등을 진행했습니다.
 
-Hong Inhye : My part was the package of Shop. Shop package is for the product list and product detail page for users and uploading product, managing product for administrator.
+## Hong Inhye 
+My part was the package of Shop. Shop package is for the product list and product detail page for users and uploading product, managing product for administrator.
+
+## 안종대
+
+로그인, 로그아웃, 정보수정, 회원가입,주문내역조회, 주문내역상세보기, 판매내역
+
+
+
+
+[git](https://github.com/sophia9999/GM)
+
+
