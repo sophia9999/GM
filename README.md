@@ -21,6 +21,9 @@ In this project, My team proceeded with requirement gathering, database modeling
 **Hong Inhye** 
 My part was the package of Shop. Shop package is for the product list and product detail page for users and uploading product, managing product for administrator.
 
+**지형근**
+제 역할은 order 패키지 입니다. 주문내역리스트, 주문상세, 배송관리 입력, 배송관리 수정을 작성하였습니다.
+
 **안종대**
 
 로그인, 로그아웃, 정보수정, 회원가입,주문내역조회, 주문내역상세보기, 판매내역
